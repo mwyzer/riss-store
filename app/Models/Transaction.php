@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Transaction extends Model
 {
     use HasFactory;
 
     /**
-     * fillable
+     * Fillable attributes for mass assignment.
      *
      * @var array
      */
@@ -27,58 +30,58 @@ class Transaction extends Model
         'grand_total',
         'status',
         'reference',
-        'address'
+        'address',
     ];
 
     /**
-     * transactionDetails
+     * Define the relationship with TransactionDetail.
      *
-     * @return void
+     * @return HasMany
      */
-    public function transactionDetails()
+    public function transactionDetails(): HasMany
     {
         return $this->hasMany(TransactionDetail::class);
     }
 
     /**
-     * user
+     * Define the relationship with User.
      *
-     * @return void
+     * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * province
+     * Define the relationship with Province.
      *
-     * @return void
+     * @return BelongsTo
      */
-    public function province()
+    public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
     }
 
     /**
-     * city
+     * Define the relationship with City.
      *
-     * @return void
+     * @return BelongsTo
      */
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
 
     /**
-     * createdAt
+     * Format createdAt attribute.
      *
      * @return Attribute
      */
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => \Carbon\Carbon::parse($value)->translatedFormat('l, d F Y'),
+            get: fn ($value) => Carbon::parse($value)->translatedFormat('l, d F Y'),
         );
     }
 }

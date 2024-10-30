@@ -56,19 +56,45 @@ Route::prefix('account')->group(function() {
         //route resource colors
         Route::resource('/colors', \App\Http\Controllers\Account\ColorController::class, ['as' => 'account'])
             ->middleware('permission:colors.index|colors.create|colors.edit|colors.delete');
-        
+
         //route resource categories
         Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
             ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
-        
-        //route resource products
-        Route::resource('/products', \App\Http\Controllers\Account\ProductController::class, ['as' => 'account'])
-            ->middleware('permission:products.index|products.create|products.show|products.edit|products.delete');
-        
-        //route resource products
-        Route::resource('/products', \App\Http\Controllers\Account\ProductController::class, ['as' => 'account'])
-            ->middleware('permission:products.index|products.create|products.show|products.edit|products.delete');
-
-    });
     
+        //route store image product
+        Route::post('/products/store_image_product', [\App\Http\Controllers\Account\ProductController::class, 'storeImageProduct'])->name('account.products.store_image_product');
+
+        //route destroy image product
+        Route::delete('/products/destroy_image_product/{id}', [\App\Http\Controllers\Account\ProductController::class, 'destroyImage'])->name('account.products.destroy_image_product');
+         
+         //route resource products
+        Route::resource('/products', \App\Http\Controllers\Account\ProductController::class, ['as' => 'account'])
+             ->middleware('permission:products.index|products.create|products.show|products.edit|products.delete');
+        
+        //route transactions index
+        Route::get('/transactions', [App\Http\Controllers\Account\TransactionController::class, 'index'])->name('account.transactions.index')
+            ->middleware('permission:transactions.index');
+        
+        Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
+             ->middleware('permission:transactions.show');
+        
+        Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
+             ->middleware('permission:sliders.index|sliders.create|sliders.delete');             
+    });
 });
+
+
+/**
+ * route home
+ */
+Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home.index');
+
+/**
+ * route category index
+ */
+Route::get('/categories', [\App\Http\Controllers\Web\CategoryController::class, 'index'])->name('web.categories.index');
+
+/**
+ * route category show
+ */
+Route::get('/categories/{slug}', [\App\Http\Controllers\Web\CategoryController::class, 'show'])->name('web.categories.show');

@@ -34,7 +34,7 @@ export default function Login() {
                     <div className="col-md-4 mt-80">
                         <div className="text-center mb-4">
                             <img src="/assets/images/logo.png" width={'60'} />
-                            <h4><strong>GEEK</strong> STORE</h4>
+                            <h4><strong>WILZIO</strong> CENTER</h4>
                         </div>
                         <div className="card border-0 rounded-3 shadow-sm border-top-success">
                             <div className="card-body">

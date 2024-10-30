@@ -120,24 +120,24 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 .border-top-success {
   /* border-top: 3px solid #198754!important; */
-  border-top: 5px solid #8F4030!important;
+  border-top: 5px solid #0E3995!important;
 }
 
 .bg-light {
   /* background: #198754!important;
   border-top: 5px solid #ffb93a; */
-  background-color: #8F4030!important;
+  background-color: #0E3995!important;
   /* border-top: 5px solid #d7664d; */
   color: white;
 }
 
 .bg-sidebar {
-  background-color: #423937!important;
+  background-color: #0E3995!important;
 }
 
 .list-group-item-light {
   color: #fefefe!important;
-  background-color: #423937!important;
+  background-color: #0E3995!important;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -152,40 +152,40 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #8F4030!important;
-  border-color: #8F4030!important;
+  background-color: #0E3995!important;
+  border-color: #0E3995!important;
 }
 
 .btn-success:hover {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #8F4030!important;
-  border-color: #8F4030!important;
+  background-color: #0E3995!important;
+  border-color: #0E3995!important;
 }
 
 .btn-success:active {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #8F4030!important;
-  border-color: #8F4030!important;
+  background-color: #0E3995!important;
+  border-color: white!important;
 }
 
 .btn-success:disabled {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #8F4030!important;
-  border-color: #8F4030!important;
+  background-color: #0E3995!important;
+  border-color: #0E3995!important;
 }
 
 .btn-success:focus {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #8F4030!important;
-  border-color: #8F4030!important;
+  background-color: #0E3995!important;
+  border-color: #0E3995!important;
   box-shadow: none!important;
 }
 
@@ -193,16 +193,16 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #743427;
-  border-color: #743427;
+  background-color: #0E3995;
+  border-color: #0E3995;
 }
 
 .btn-success-dark:hover {
   color: #fff;
   /* background-color: #116f44;
   border-color: #116f44; */
-  background-color: #743427;
-  border-color: #743427;
+  background-color: #0E3995;
+  border-color: #0E3995;
 }
 
 .ql-editor{

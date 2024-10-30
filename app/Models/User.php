@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -13,11 +13,26 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',  // Add 'id' so that UUID can be mass assigned
         'name',
         'email',
         'password',
@@ -34,28 +49,38 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Boot function to automatically generate UUID for new models.
+     */
+    protected static function boot()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) Str::uuid();
+            }
+        });
     }
 
     /**
-     * getPermissionArray
+     * Get permission array
      *
-     * @return void
+     * @return array
      */
-    public function getPermissionArray()
+    public function getPermissionArray(): array
     {
-        return $this->getAllPermissions()->mapWithKeys(function($pr){
+        return $this->getAllPermissions()->mapWithKeys(function($pr) {
             return [$pr['name'] => true];
-        });
-   
+        })->toArray();
     }
 }
