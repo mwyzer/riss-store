@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SocialiteController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,12 @@ Route::prefix('account')->group(function() {
              ->middleware('permission:sliders.index|sliders.create|sliders.delete');             
     });
 });
+
+
+ 
+Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
+
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
 
 
 /**
