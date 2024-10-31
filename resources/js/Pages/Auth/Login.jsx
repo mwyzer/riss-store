@@ -68,6 +68,11 @@ export default function Login() {
 
                                     <button className="btn btn-success shadow-sm rounded-sm px-4 w-100" type="submit">LOGIN</button>
                                 </form>
+
+                                {/* Google Login Button */}
+                                <a href="/auth/redirect" className="btn btn-danger shadow-sm rounded-sm px-4 w-100 mt-3">
+                                    <i className="fa fa-google"></i> Login with Google
+                                </a>
                             </div>
                         </div>
                         <div className="register text-center mt-3">

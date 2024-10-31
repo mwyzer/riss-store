@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SocialiteController;
-use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,9 +77,11 @@ Route::prefix('account')->group(function() {
         Route::get('/transactions', [App\Http\Controllers\Account\TransactionController::class, 'index'])->name('account.transactions.index')
             ->middleware('permission:transactions.index');
         
+        //route transactions show
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
              ->middleware('permission:transactions.show');
         
+        //route resource sliders
         Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
              ->middleware('permission:sliders.index|sliders.create|sliders.delete');             
     });
@@ -89,7 +91,7 @@ Route::prefix('account')->group(function() {
  
 Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
 
-Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
+Route::get('/auth/google/callback', [SocialiteController::class, 'callback']);
 
 
 /**
@@ -98,7 +100,7 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
 Route::get('/', \App\Http\Controllers\Web\HomeController::class)->name('web.home.index');
 
 /**
- * route category index
+ * route category inde x
  */
 Route::get('/categories', [\App\Http\Controllers\Web\CategoryController::class, 'index'])->name('web.categories.index');
 
