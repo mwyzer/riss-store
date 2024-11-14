@@ -1,106 +1,160 @@
-//import React
+//import react  
 import React, { useState } from "react";
 
-//import layout web
-import LayoutWeb from '../../../Layouts/Web';
+//import layout
+import LayoutAccount from '../../../Layouts/Account';
 
-//import Head, usePage
-import { Head, usePage } from '@inertiajs/react';
+//import Head, usePage and router
+import { Head, usePage, router } from '@inertiajs/react';
 
-//import formatPrice
-import FormatPrice from '../../../Utils/FormatPrice';
+//import component pagination
+import Pagination from '../../../Shared/Pagination';
+
+//import component delete
+import Delete from '../../../Shared/Delete';
+
+//import Sweet Alert
+import Swal from 'sweetalert2';
 
 export default function ProductShow() {
 
-    //destruct props "product"
-    const { product } = usePage().props;
+    //destruct props "product", "colors" & "errors"
+    const { product, colors, errors } = usePage().props;
 
     //define state
-    const [productImage, setProductImage] = useState(product.product_images[0].image);
-    const [color, setColor] = useState(product.product_images[0].color.name);
-    const [colorImage, setColorImage] = useState(product.product_images[0].color.image);
-    const [size, setSize] = useState(product.product_sizes[0].size);
-    const [price, setPrice] = useState(product.product_sizes[0].price);
+    const [colorID, setColorID] = useState('');
+    const [image, setImage] = useState('');
 
-    //method changeImage
-    const changeImage = (color) => {
-        setProductImage(color.image);
-        setColor(color.color.name);
-        setColorImage(color.color.image);
-    }
+    //method storeImage
+    const storeImage = async (e) => {
+        e.preventDefault();
 
-    //method changeSizeAndPrice
-    const changeSizeAndPrice = (size, price) => {
-        setSize(size);
-        setPrice(price);
+        //sending data
+        router.post('/account/products/store_image_product', {
+
+            //data
+            image: image,
+            color_id: colorID,
+            product_id: product.id
+        }, {
+            onSuccess: () => {
+
+                //show alert
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data saved successfully!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                //set state to null
+                setImage(null);
+                setColorID('');
+            }
+        });
     }
 
     return (
         <>
             <Head>
-                <title>{`${product.title} - Geek Store - Where Developer Shopping`}</title>
+                <title>Detail Product - Geek Store</title>
             </Head>
-            <LayoutWeb>
+            <LayoutAccount>
+                <div className="row mt-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-success">
+                            <div className="card-header">
+                                <span className="font-weight-bold"><i className="fa fa-shopping-bag"></i> Upload Product Image</span>
+                            </div>
+                            <div className="card-body">
+                                <form onSubmit={storeImage}>
 
-                <div className="container mt-55 mb-5">
-                    <div className="fade-in">
-                        <div className="row justify-content-center">
-                            <div className="col-md-8">
-
-                                <div className="card border-0 bg-gray rounded-0 shadow-sm pt-2 mb-0">
-                                    <div className="card-body text-center">
-                                        <img src={productImage} width="300" className="rounded-3" />
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Image</label>
+                                        <input type="file" className="form-control" onChange={(e) => setImage(e.target.files[0])} />
                                     </div>
-                                </div>
-                                <div className="card border-0 rounded-top-none rounded shadow-sm mt-0 mb-3">
-                                    <div className="card-body">
+                                    {errors.image && (
+                                        <div className="alert alert-danger">
+                                            {errors.image}
+                                        </div>
+                                    )}
 
-                                        <div className="row">
-                                            <div className="col-md-6 col-6 text-start">
-                                                <h5>{product.title}</h5>
-                                            </div>
-                                            <div className="col-md-6 col-6 text-end">
-                                                <h5>Rp. {FormatPrice(price)}</h5>
-                                            </div>
-                                        </div>
-
-                                        <div className="colors mt-4">
-                                            <i>Colors</i>
-                                            <div className="mt-2">
-                                                {product.product_images.map((color, index) => (
-                                                    <button onClick={() => changeImage(color)} key={index} className="btn btn-transparent btn-sm me-2 border-0 text-center">
-                                                        <img src={color.color.image} width={'20'} className="rounded-circle me-3 shadow-sm" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div className="colors mt-4">
-                                            <i>Sizes</i>
-                                            <div className="mt-2">
-                                                {product.product_sizes.map((size, index) => (
-                                                    <button onClick={() => changeSizeAndPrice(size.size, size.price)} className="btn btn-success btn-sm me-2 border-0 shadow-sm w-5" key={index}>{size.size}</button>
-                                                ))}
-                                            </div>
-                                        </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold">Color</label>
+                                        <select className="form-select" value={colorID} onChange={(e) => setColorID(e.target.value)}>
+                                            <option value="">-- Select Color --</option>
+                                            {
+                                                colors.map((color) => (
+                                                    <option value={color.id} key={color.id}>{color.name}</option>
+                                                ))
+                                            }
+                                        </select>
                                     </div>
-                                </div>
+                                    {errors.color_id && (
+                                        <div className="alert alert-danger">
+                                            {errors.color_id}
+                                        </div>
+                                    )}
 
-                                <div className="card border-0 rounded shadow-sm mb-5">
-                                    <div className="card-body">
-                                        <h5>Description</h5>
-                                        <hr />
-                                        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                                    <div>
+                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Save</button>
+                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>
                                     </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="row mt-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-success">
+                            <div className="card-header">
+                                <span className="font-weight-bold"><i className="fa fa-shopping-bag"></i> Product Image</span>
+                            </div>
+                            <div className="card-body">
+                                <div className="table-responsive">
+                                    <table className="table table-bordered table-striped table-hovered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style={{ width: '5%' }}>No.</th>
+                                                <th scope="col" style={{ width: '20%' }}>Image</th>
+                                                <th scope="col" style={{ width: '15%' }}>Color</th>
+                                                <th scope="col" style={{ width: '15%' }}>Color Name</th>
+                                                <th scope="col" style={{ width: '15%' }}>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {product.product_images.data.map((image, index) => (
+                                                <tr key={index}>
+                                                    <td className="text-center">{++index + (product.product_images.current_page - 1) * product.product_images.per_page}</td>
+                                                    <td className="text-center">
+                                                        <img src={image.image} width={'200'} className="rounded-3" />
+                                                    </td>
+                                                    <td className="text-center">
+                                                        <img src={image.color.image} width={'30'} className="rounded-circle" />
+                                                    </td>
+                                                    <td className="text-center">
+                                                        {image.color.name}
+                                                    </td>
+                                                    <td className="text-center">
+                                                        <Delete URL={'/account/products/destroy_image_product'} id={image.id} />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
+                                
+                                <Pagination links={product.product_images.links} align={'end'}/>
 
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </LayoutWeb>
+            </LayoutAccount>
         </>
     )
-
 }

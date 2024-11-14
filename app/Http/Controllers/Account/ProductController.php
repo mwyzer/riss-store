@@ -161,9 +161,9 @@ class ProductController extends Controller
             'weight'        => 'required',
             'product_sizes' => 'required|array|min:2'
         ]);
-    
+
         /**
-         * Update product
+         * Create product
          */
         $product->update([
             'title'         => $request->title,
@@ -172,36 +172,37 @@ class ProductController extends Controller
             'description'   => $request->description,
             'weight'        => $request->weight,
         ]);
-    
-        // Insert or update product sizes and prices
-        if (!empty($request->product_sizes)) {
-    
-            // Delete product sizes not included in the request
-            $ids = Arr::pluck($request->product_sizes, 'id');
-            $product->productSizes()->whereNotIn('id', $ids)->delete();
-    
-            foreach ($request->product_sizes as $data) {
-    
-                // Check if the product size and price already exist
-                $size = $product->productSizes()->where('size', $data['size'])->first();
-    
-                if ($size) {
-                    // Update existing product size and price
+
+        //insert or update product size and price
+        if($request->product_sizes > 0) {
+
+            //delete array
+            $id = Arr::pluck($request->product_sizes, 'id');
+            $product->productSizes()->whereNotIn('id', $id)->delete();
+
+            foreach($request->product_sizes as $data) {
+
+                //check product size and price
+                $size = $product->productSizes()->where('product_id', $product->id)->where('size', $data['size'])->first();
+
+                if($size) {
+                    //update product size
                     $size->update([
                         'size'  => $data['size'],
                         'price' => (int) $data['price'],
                     ]);
                 } else {
-                    // Create new product size and price
+                    //insert product size
                     $product->productSizes()->create([
                         'size'   => $data['size'],
                         'price'  => (int) $data['price']
                     ]);
                 }
+
             }
         }
-    
-        // Redirect to products index
+
+        //redirect
         return redirect()->route('account.products.index');
     }
 

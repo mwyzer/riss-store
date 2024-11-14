@@ -1,10 +1,13 @@
 //import React
 import React from "react";
 
-//import link
-import { Link } from '@inertiajs/react';
+//import link, usePage
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Menu() {
+
+    //destruct props "dataCarts"
+    const { dataCarts } = usePage().props
 
     return (
         <>
@@ -20,6 +23,18 @@ export default function Menu() {
                                 <span className="small d-block">Home</span>
                             </Link>
                         </li>
+                        <li className="nav-item dropup">
+                            <Link href="/carts" className="nav-link text-white fw-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
+                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                {dataCarts
+                                    ? <span className='badge badge-warning rounded-pill shadow' id='count-cart'>{dataCarts.total}</span>
+                                    : <span className='badge badge-warning rounded-pill shadow' id='count-cart'>0</span>
+                                }
+                                <span className="small d-block">Shopping Cart</span>
+                            </Link>
+                        </li>
                         <li className="nav-item">
                             <Link href="#" data-bs-toggle="modal" data-bs-target="#search" className="nav-link text-white fw-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
@@ -28,15 +43,7 @@ export default function Menu() {
                                 <span className="small d-block">Search</span>
                             </Link>
                         </li>
-                        <li className="nav-item dropup">
-                            <Link href="/carts" className="nav-link text-white fw-bold">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
-                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                </svg>
-                                <span className='badge badge-warning rounded-pill shadow' id='count-cart'>0</span>
-                                <span className="small d-block">Shopping Cart</span>
-                            </Link>
-                        </li>
+    
                         <li className="nav-item dropup">
                             <Link href="/login" className="nav-link text-white fw-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">

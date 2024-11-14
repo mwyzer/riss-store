@@ -118,3 +118,21 @@ Route::get('/products', [\App\Http\Controllers\Web\ProductController::class, 'in
  * route products show
  */
 Route::get('/products/{slug}', [\App\Http\Controllers\Web\ProductController::class, 'show'])->name('web.products.show');
+
+/**
+ * route cart index
+ */
+Route::get('/carts', [\App\Http\Controllers\Web\CartController::class, 'index'])->name('web.carts.index')
+    ->middleware('auth');
+
+/**
+ * route cart store
+ */
+Route::post('/carts', [\App\Http\Controllers\Web\CartController::class, 'store'])->name('web.carts.store')
+    ->middleware('auth');
+
+/**
+ * route cart delete
+ */
+Route::delete('/carts/{id}', [\App\Http\Controllers\Web\CartController::class, 'destroy'])->name('web.carts.destroy')
+    ->middleware('auth');

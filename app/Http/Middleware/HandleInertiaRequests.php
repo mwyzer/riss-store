@@ -36,11 +36,17 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-           //user authenticated
-            'auth'=>[
+            //user authenticated
+            'auth' => [
                 'user'          => $request->user() ?   $request->user() : null,
                 'permissions'   => $request->user() ? $request->user()->getPermissionArray() : []
             ],
+            //carts
+            'dataCarts' => $request->user() ? [
+                'total'     =>  \App\Models\Cart::where('user_id', $request->user()->id)->count() ?? 0,
+                'price'     => \App\Models\Cart::where('user_id', $request->user()->id)->sum('price') ?? 0,
+                'weight'    => \App\Models\Cart::where('user_id', $request->user()->id)->sum('weight') ?? 0
+            ] : null
         ]);
     }
 }
