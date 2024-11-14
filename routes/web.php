@@ -108,3 +108,13 @@ Route::get('/categories', [\App\Http\Controllers\Web\CategoryController::class, 
  * route category show
  */
 Route::get('/categories/{slug}', [\App\Http\Controllers\Web\CategoryController::class, 'show'])->name('web.categories.show');
+
+/**
+ * route products index
+ */
+Route::get('/products', [\App\Http\Controllers\Web\ProductController::class, 'index'])->name('web.products.index');
+
+/**
+ * route products show
+ */
+Route::get('/products/{slug}', [\App\Http\Controllers\Web\ProductController::class, 'show'])->name('web.products.show');
