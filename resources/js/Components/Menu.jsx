@@ -1,13 +1,42 @@
 //import React
-import React from "react";
+import React, { useState } from "react";
 
 //import link, usePage
 import { Link, usePage } from '@inertiajs/react';
+
+//import axios
+import axios from "axios";
 
 export default function Menu() {
 
     //destruct props "dataCarts"
     const { dataCarts } = usePage().props
+
+    //define state
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    //define method "searchhandler"
+    const searchHandler = (e) => {
+
+        //set isLoading to true
+        setIsLoading(true);
+
+        //set products to null
+        setProducts([]);
+
+        axios.post(`/search`, {
+            q: e.target.value
+        })
+            .then(response => {
+
+                //set isLoading to false
+                setIsLoading(false);
+
+                //set response to state
+                setProducts(response.data.products);
+            })
+    }
 
     return (
         <>
@@ -23,6 +52,14 @@ export default function Menu() {
                                 <span className="small d-block">Home</span>
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link href="#" data-bs-toggle="modal" data-bs-target="#search" className="nav-link text-white fw-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg>
+                                <span className="small d-block">Search</span>
+                            </Link>
+                        </li>
                         <li className="nav-item dropup">
                             <Link href="/carts" className="nav-link text-white fw-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
@@ -35,15 +72,6 @@ export default function Menu() {
                                 <span className="small d-block">Shopping Cart</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link href="#" data-bs-toggle="modal" data-bs-target="#search" className="nav-link text-white fw-bold">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
-                                <span className="small d-block">Search</span>
-                            </Link>
-                        </li>
-    
                         <li className="nav-item dropup">
                             <Link href="/login" className="nav-link text-white fw-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
@@ -56,6 +84,45 @@ export default function Menu() {
                     </ul>
                 </div>
             </nav>
+
+            {/** modal */}
+            <div className="modal fade" id="search" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Search</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="input-group">
+                                <input type="text" className="form-control" onChange={((e) => searchHandler(e))} placeholder="search product here..." />
+                            </div>
+                        </div>
+                        <div className="modal-body" style={{ height: '300px', overflow: 'auto' }}>
+                            {isLoading &&
+                                <div className="justify-content-center mb-3 text-center">
+                                    <div className="spinner-border text-success" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                    <h6 className="mt-2">Loading...</h6>
+                                </div>
+                            }
+
+                            {
+                                products.map((product, index) => (
+                                    <a href={`/products/${product.slug}`} className="text-decoration-none text-dark" key={index}>
+                                        <div className="card border-0 shadow-sm rounded-3 bg-light mb-3">
+                                            <div className="card-body">
+                                                {product.title}
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 

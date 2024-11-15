@@ -13,60 +13,52 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Define permissions for each section
-        $permissions = [
-            // Dashboard permissions
-            'dashboard.index',
-            'dashboard.statistics',
-            'dashboard.chart',
+        //permission dashboard
+        Permission::create(['name' => 'dashboard.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'dashboard.statistics', 'guard_name' => 'web']);
+        Permission::create(['name' => 'dashboard.chart', 'guard_name' => 'web']);
 
-            // User permissions
-            'users.index',
-            'users.create',
-            'users.edit',
-            'users.delete',
+        //permission users
+        Permission::create(['name' => 'users.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'users.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'users.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'users.delete', 'guard_name' => 'web']);
 
-            // Role permissions
-            'roles.index',
-            'roles.create',
-            'roles.edit',
-            'roles.delete',
+        //permission roles
+        Permission::create(['name' => 'roles.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'roles.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'roles.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'roles.delete', 'guard_name' => 'web']);
 
-            // Permission permissions
-            'permissions.index',
+        //permission permissions
+        Permission::create(['name' => 'permissions.index', 'guard_name' => 'web']);
 
-            // Color permissions
-            'colors.index',
-            'colors.create',
-            'colors.edit',
-            'colors.delete',
+        //permission colors
+        Permission::create(['name' => 'colors.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'colors.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'colors.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'colors.delete', 'guard_name' => 'web']);
 
-            // Category permissions
-            'categories.index',
-            'categories.create',
-            'categories.edit',
-            'categories.delete',
+        //permission categories
+        Permission::create(['name' => 'categories.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'categories.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'categories.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'categories.delete', 'guard_name' => 'web']);
 
-            // Product permissions
-            'products.index',
-            'products.create',
-            'products.show',
-            'products.edit',
-            'products.delete',
+        //permission products
+        Permission::create(['name' => 'products.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'products.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'products.show', 'guard_name' => 'web']);
+        Permission::create(['name' => 'products.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'products.delete', 'guard_name' => 'web']);
 
-            // Transaction permissions
-            'transactions.index',
-            'transactions.show',
+        //permission transactions
+        Permission::create(['name' => 'transactions.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'transactions.show', 'guard_name' => 'web']);
 
-            // Slider permissions
-            'sliders.index',
-            'sliders.create',
-            'sliders.delete',
-        ];
-
-        // Loop through each permission and create if not exists
-        foreach ($permissions as $permissionName) {
-            Permission::firstOrCreate(['name' => $permissionName, 'guard_name' => 'web']);
-        }
+        //permission sliders
+        Permission::create(['name' => 'sliders.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'sliders.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'sliders.delete', 'guard_name' => 'web']);
     }
 }
