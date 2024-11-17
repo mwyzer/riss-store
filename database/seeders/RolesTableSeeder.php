@@ -14,7 +14,7 @@ class RolesTableSeeder extends Seeder
     public function run(): void
     {
         // Define roles you want to create
-        $roles = ['admin', 'user', 'seller', 'finance', 'login user'];
+        $roles = ['admin', 'seller', 'finance', 'mitra', 'partner', 'marketing'];
 
         // Loop through each role
         foreach ($roles as $roleName) {
