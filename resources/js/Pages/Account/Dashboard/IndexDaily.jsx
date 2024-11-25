@@ -201,7 +201,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 }
-{/* 
+
                 {hasAnyPermission(['dashboard.chart']) &&
                     <div className="row mt-2">
                         <div className="col-12 col-md-9 col-lg-9 mb-4">
@@ -213,7 +213,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                } */}
+                }
 
             </LayoutAccount>
         </>

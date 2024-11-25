@@ -573,3 +573,62 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
 }
+
+.log-card {
+  background: #001c54;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.log-card .card-header {
+  background: #0d47a1;
+  padding: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table th {
+  background: #002b67;
+}
+
+.table tr:nth-child(even) {
+  background: #003a8c;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.bg-blue-500 {
+  background-color: #007bff;
+}
+
+.bg-purple-500 {
+  background-color: #6f42c1;
+}
+
+.bg-pink-500 {
+  background-color: #d63384;
+}
+
+.text-success {
+  color: #28a745;
+}
