@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('memberships', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('name')->index(); // Name of the location with indexing for faster searches
-            $table->text('address'); // Address of the location
+            $table->string('level_name'); // Membership level name
+            $table->text('description')->nullable(); // Description of the membership level
+            $table->boolean('is_active')->default(true); // Active status of the membership
+            $table->json('rewards')->nullable(); // JSON field to store rewards
             $table->timestamps(); // Created at and updated at timestamps
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('memberships');
     }
 };

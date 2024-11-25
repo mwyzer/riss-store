@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('membership_requirements', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('name')->index(); // Name of the location with indexing for faster searches
-            $table->text('address'); // Address of the location
+            $table->foreignId('membershipLevelId')->constrained('membership_levels')->onDelete('cascade'); // Foreign key for membership levels
+            $table->string('requirementName', 255); // Requirement name
+            $table->text('description')->nullable(); // Description of the requirement
             $table->timestamps(); // Created at and updated at timestamps
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('membership_requirements');
     }
 };

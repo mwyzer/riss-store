@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('providers', function (Blueprint $table) {
+        Schema::create('complaint_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Provider name
+            $table->foreignId('location_id')->constrained()->onDelete('cascade'); // Foreign key for locations
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key for users
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('providers');
+        Schema::dropIfExists('complaint_histories');
     }
 };
