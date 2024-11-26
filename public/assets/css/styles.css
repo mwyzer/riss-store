@@ -102,8 +102,9 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 .list-group-item-light.list-group-item-action.active {
   color: #636464;
-  background-color: #2f1f1c!important;
+  background-color: #403a9c !important;
   border-color: #2f1f1c;
+  border-radius: 8px;
 }
 
 .overflow-hidden {

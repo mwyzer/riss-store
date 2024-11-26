@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // Primary key
+            $table->unsignedBigInteger('invoice_id'); // Foreign key to invoices
+            $table->foreign('invoice_id')
+                  ->references('id')
+                  ->on('invoices')
+                  ->onDelete('cascade');
+            $table->integer('amount'); // Payment amount
+            $table->timestamps(); // Created at and updated at
         });
     }
 

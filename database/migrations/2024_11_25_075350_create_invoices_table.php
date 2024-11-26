@@ -27,6 +27,7 @@ return new class extends Migration
         
                 $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade'); // Foreign key for customer
                 $table->timestamps(); // Created at and updated at timestamps
+                $table->softDeletes();
             });
         }
         

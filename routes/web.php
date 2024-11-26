@@ -83,7 +83,12 @@ Route::prefix('account')->group(function() {
         
         //route resource sliders
         Route::resource('/sliders', App\Http\Controllers\Account\SliderController::class, ['except' => ['create', 'show', 'edit', 'update'], 'as' => 'account'])
-             ->middleware('permission:sliders.index|sliders.create|sliders.delete');             
+             ->middleware('permission:sliders.index|sliders.create|sliders.delete');
+             
+        // Route resource for postpaids
+        Route::resource('postpaids', \App\Http\Controllers\Account\PostpaidProviderController::class, [
+            'as' => 'account',
+        ])->middleware(['permission:postpaids.index', 'permission:postpaids.create', 'permission:postpaids.edit', 'permission:postpaids.delete']);
     });
 });
 

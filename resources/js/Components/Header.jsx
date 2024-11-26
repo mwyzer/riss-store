@@ -15,7 +15,7 @@ export default function Header() {
                             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
                                 <Link href="/" className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
                                     <img src="/assets/images/logo.png" width="50" />
-                                    <h5 className="mb-0"><strong>GE </strong> CENTER</h5>
+                                    <h5 className="mb-0"><strong>WILZIO</strong></h5>
                                 </Link>
                             </header>
                         </div>

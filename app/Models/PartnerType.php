@@ -9,9 +9,17 @@ class PartnerType extends Model
 {
     use HasFactory;
 
-    use HasFactory;
-
     protected $fillable = ['name'];
+
+    public function sellerPrices()
+    {
+        return $this->hasMany(PartnerPricing::class)->where('partner_type', 'seller');
+    }
+
+    public function partnerPrices()
+    {
+        return $this->hasMany(PartnerPricing::class)->where('partner_type', 'partner');
+    }
 
     public function voucherPartnerPrices()
     {
