@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('satelite_providers', function (Blueprint $table) {
+        Schema::create('satellite_providers', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique(); // Satellite number (e.g., SLK - SID 988277211)
+            $table->string('number')->unique(); // Unique Satellite number (e.g., SLK - SID 988277211)
             $table->string('provider'); // Provider name (e.g., OneWeb, Star-TLKM, Ubiqu)
             $table->foreignId('location_id') // Foreign key to locations table
                 ->constrained('locations')
@@ -30,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('satellite_providers');
+        Schema::table('satellite_providers', function (Blueprint $table) {
+            $table->dropForeign(['location_id']); // Drop the foreign key constraint
+        });
+
+        Schema::dropIfExists('satellite_providers'); // Drop the table
     }
 };
