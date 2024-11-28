@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Models\Postpaid;
+use App\Models\PostpaidProvider;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
-
 
 class PostpaidProviderController extends Controller
 {
@@ -15,9 +14,9 @@ class PostpaidProviderController extends Controller
      */
     public function index()
     {
-        $postpaids = Postpaid::with('location')->get();
+        $postpaids = PostpaidProvider::with('location')->get();
 
-        // Return the view via Inertia
+        // Return the view via Inertia with paginated results if needed
         return Inertia::render('Account/Postpaids/Index', [
             'postpaids' => $postpaids,
         ]);
@@ -28,7 +27,7 @@ class PostpaidProviderController extends Controller
      */
     public function create()
     {
-        // Return the view for creating a postpaid
+        // Return the view for creating a postpaid number via Inertia
         return Inertia::render('Account/Postpaids/Create');
     }
 
@@ -38,29 +37,31 @@ class PostpaidProviderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'number' => 'required|unique:postpaids',
-            'provider' => 'required|string',
-            'location_id' => 'required|exists:locations,id',
-            'position' => 'required|string',
-            'holder' => 'required|string',
+            'number' => 'required|string|unique:postpaid_providers,number',
+            'provider' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'holder' => 'required|string|max:255',
             'status' => 'required|in:Terpasang,Stand By,Bermasalah',
-            'limit' => 'required|numeric|min:0',
+            'limit' => 'nullable|numeric|min:0',
         ]);
-
-        Postpaid::create($validated);
-
-        // Redirect back to the index page with a success message
-        return redirect()->route('postpaids.index')->with('success', 'Postpaid number created successfully!');
+    
+        PostpaidProvider::create($validated);
+    
+       // Return a success response via Inertia
+        return Inertia::render('Account/Postpaids/Index', [
+            'success' => 'Postpaid provider created successfully.',
+            'postpaidProviders' => PostpaidProvider::all(),
+        ]);
     }
-
-    /**
+        /**
      * Show the specified resource.
      */
-    public function show(Postpaid $postpaid)
+    public function show(PostpaidProvider $postpaid)
     {
         $postpaid->load('location');
 
-        // Return the view via Inertia
+        // Return the show view via Inertia
         return Inertia::render('Account/Postpaids/Show', [
             'postpaid' => $postpaid,
         ]);
@@ -69,7 +70,7 @@ class PostpaidProviderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Postpaid $postpaid)
+    public function edit(PostpaidProvider $postpaid)
     {
         // Return the edit form view via Inertia
         return Inertia::render('Account/Postpaids/Edit', [
@@ -80,32 +81,38 @@ class PostpaidProviderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Postpaid $postpaid)
+    
+    public function update(Request $request, PostpaidProvider $postpaid)
     {
         $validated = $request->validate([
-            'number' => 'required|unique:postpaids,number,' . $postpaid->id,
-            'provider' => 'required|string',
-            'location_id' => 'required|exists:locations,id',
-            'position' => 'required|string',
-            'holder' => 'required|string',
+            'number' => 'required|string|unique:postpaid_providers,number,' . $postpaid->id,
+            'provider' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'holder' => 'required|string|max:255',
             'status' => 'required|in:Terpasang,Stand By,Bermasalah',
-            'limit' => 'required|numeric|min:0',
+            'limit' => 'nullable|numeric|min:0',
         ]);
 
         $postpaid->update($validated);
 
-        // Redirect back to the index page with a success message
-        return redirect()->route('postpaids.index')->with('success', 'Postpaid number updated successfully!');
+        // Return the updated list with a success message
+        return Inertia::render('Account/Postpaids/Index', [
+            'success' => 'Postpaid number updated successfully!',
+            'postpaids' => PostpaidProvider::all(),
+        ]);
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Postpaid $postpaid)
+    public function destroy(PostpaidProvider $postpaid)
     {
         $postpaid->delete();
-
-        // Redirect back to the index page with a success message
-        return redirect()->route('postpaids.index')->with('success', 'Postpaid number deleted successfully!');
+    
+        // Return the updated list with a success message
+        return Inertia::render('Account/Postpaids/Index', [
+            'success' => 'Postpaid number deleted successfully!',
+            'postpaids' => PostpaidProvider::all(), // Updated list of postpaid providers
+        ]);
     }
 }

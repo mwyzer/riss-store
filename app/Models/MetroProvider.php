@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PostpaidProvider extends Model
+class MetroProvider extends Model
 {
     use HasFactory;
 
@@ -19,11 +19,12 @@ class PostpaidProvider extends Model
         'limit',
     ];
 
-    /**
+        /**
      * Relationship with Postpaid
      */
     public function location()
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
+
 }

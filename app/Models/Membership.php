@@ -11,14 +11,20 @@ class Membership extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'levelName',
-        'description',
-        'isActive',
-        'rewards',
+        'name',
+        'customer_id',
+        'location',
+        'status_level',
+        'membership_level',
+        'balance',
+        'total_transactions',
     ];
 
-    public function referralLevels()
+    /**
+     * Get the WhatsApp link for the member.
+     */
+    public function getWhatsAppLinkAttribute()
     {
-        return $this->hasMany(ReferralLevel::class, 'membershipId');
+        return 'https://wa.me/' . $this->customer_id;
     }
 }

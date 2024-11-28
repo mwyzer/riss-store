@@ -16,15 +16,17 @@ class ColorController extends Controller
      */
     public function index()
     {
-        //get colors
-        $colors = Color::when(request()->q, function($colors) {
-            $colors = $colors->where('name', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(5);
+        // Fetch colors with optional search query and eager loading (if relationships exist)
+        $colors = Color::when(request()->q, function ($query) {
+                $query->where('name', 'like', '%' . request()->q . '%');
+            })
+            ->latest()
+            ->paginate(5);
 
-        //append query string to pagination links
+        // Append query string to pagination links
         $colors->appends(['q' => request()->q]);
 
-        //render with inertia
+        // Render with Inertia
         return inertia('Account/Colors/Index', [
             'colors' => $colors,
         ]);
@@ -37,118 +39,119 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //render with inertia
+        // Render create form with Inertia
         return inertia('Account/Colors/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        /**
-         * Validate request
-         */
-        $request->validate([
-            'name'      => 'required',
-            'image'     => 'required|mimes:png,jpg',
+        // Validate request
+        $validated = $request->validate([
+            'name'  => 'required|string|unique:colors,name',
+            'image' => 'nullable|mimes:png,jpg|max:2048',
+        ], [
+            'name.required' => 'The color name is required.',
+            'name.unique'   => 'The color name must be unique.',
+            'image.mimes'   => 'The image must be a file of type: png, jpg.',
         ]);
 
-        //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/colors', $image->hashName());
+        // Upload image if provided
+        $image = null;
+        if ($request->file('image')) {
+            $image = $request->file('image')->storeAs('public/colors', $request->file('image')->hashName());
+        }
 
-        //create color
-        $color = Color::create([
-            'name'  => $request->name,
-            'image' => $image->hashName()
+        // Create new color
+        Color::create([
+            'name'  => $validated['name'],
+            'image' => $image ? basename($image) : null,
         ]);
 
-        //redirect
-        return redirect()->route('account.colors.index');
+        // Redirect with success message
+        return redirect()->route('account.colors.index')->with('success', 'Color created successfully.');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //get color
+        // Get color by ID
         $color = Color::findOrFail($id);
 
-        //render with inertia
+        // Render edit form with Inertia
         return inertia('Account/Colors/Edit', [
-            'color'          => $color,
+            'color' => $color,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  Color $color
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Color $color)
     {
-        /**
-         * validate request
-         */
-        $request->validate([
-            'name'      => 'required',
+        // Validate request
+        $validated = $request->validate([
+            'name'  => 'required|string|unique:colors,name,' . $color->id,
+            'image' => 'nullable|mimes:png,jpg|max:2048',
         ]);
 
-        //check image update
+        // Handle image update
         if ($request->file('image')) {
+            // Delete old image if it exists
+            if ($color->image) {
+                Storage::disk('local')->delete('public/colors/' . $color->image);
+            }
 
-            //remove old image
-            Storage::disk('local')->delete('public/colors/'.basename($color->image));
-        
-            //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/colors', $image->hashName());
-
-            //update color with new image
+            // Upload new image
+            $image = $request->file('image')->storeAs('public/colors', $request->file('image')->hashName());
             $color->update([
-                'image'=> $image->hashName(),
-                'name' => $request->name,
+                'image' => basename($image),
             ]);
-
         }
 
-        //update color without image
+        // Update color name
         $color->update([
-            'name'          => $request->name,
+            'name' => $validated['name'],
         ]);
 
-        //redirect
-        return redirect()->route('account.colors.index');
+        // Redirect with success message
+        return redirect()->route('account.colors.index')->with('success', 'Color updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //find color by ID
+        // Find color by ID
         $color = Color::findOrFail($id);
 
-        //remove image from server
-        Storage::disk('local')->delete('public/colors/'.basename($color->image));
+        // Delete image from storage if it exists
+        if ($color->image) {
+            Storage::disk('local')->delete('public/colors/' . $color->image);
+        }
 
-        //delete color
+        // Delete color record
         $color->delete();
 
-        //redirect
-        return redirect()->route('account.colors.index');
+        // Redirect with success message
+        return redirect()->route('account.colors.index')->with('success', 'Color deleted successfully.');
     }
 }

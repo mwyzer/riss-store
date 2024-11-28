@@ -54,4 +54,27 @@ class Location extends Model
     {
         return $this->hasMany(SalesHistory::class);
     }
+
+        // Define the relationship to PostpaidProvider
+    public function postpaidProviders()
+    {
+        return $this->hasMany(PostpaidProvider::class);
+    }
+    
+    public function prepaidProviders()
+    {
+        return $this->hasMany(PrepaidProvider::class);
+    }
+
+    public function metroProviders()
+    {
+        return $this->hasMany(PrepaidProvider::class);
+    }
+
+    public function satelliteProviders()
+    {
+        return $this->hasMany(PrepaidProvider::class);
+    }
+
+
 }

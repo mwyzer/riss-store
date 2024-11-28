@@ -32,7 +32,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',  // Add 'id' so that UUID can be mass assigned
+        'id', // Add 'id' for UUID mass assignment
         'name',
         'email',
         'password',
@@ -61,6 +61,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'google_token_created_at' => 'datetime',
+        'google_token_expires_at' => 'datetime',
         'password' => 'hashed',
     ];
 
@@ -73,20 +75,20 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
             if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
+                $model->id = (string) Str::uuid(); // Automatically generate UUID for the user ID
             }
         });
     }
 
     /**
-     * Get permission array
+     * Get an array of permissions assigned to the user.
      *
-     * @return array
+     * @return array<string, bool>
      */
     public function getPermissionArray(): array
     {
-        return $this->getAllPermissions()->mapWithKeys(function($pr) {
-            return [$pr['name'] => true];
-        })->toArray();
+        return $this->getAllPermissions()
+            ->mapWithKeys(fn($permission) => [$permission->name => true])
+            ->toArray();
     }
 }

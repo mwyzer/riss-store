@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PostpaidProvider extends Model
+class PrepaidProvider extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'number',
         'provider_name',
-        'location_id', // Foreign key to the locations table
+        'location_id',
         'position',
         'holder',
         'status',

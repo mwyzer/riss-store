@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('postpaid_providers', function (Blueprint $table) {
+        Schema::create('prepaid_providers', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique(); // Phone number
-            $table->string('provider'); // Provider name
+            $table->string('provider_name'); // Provider name
             $table->foreignId('location_id') // Foreign key to locations table
-                    ->constrained('locations')
-                    ->onDelete('cascade'); // Cascade delete if location is deleted
+                  ->constrained('locations')
+                  ->onDelete('cascade'); // Cascade delete if location is deleted
             $table->string('position')->nullable(); // Position or ISP reference
             $table->string('holder'); // Name of holder
             $table->enum('status', ['Terpasang', 'Stand By', 'Bermasalah'])->default('Terpasang'); // Status
-            $table->decimal('limit', 10, 2)->nullable(); // Limit in currency
+            $table->integer('limit')->nullable(); // Limit in currency
             $table->timestamps();
             $table->softDeletes();
-    });
+        });
     }
 
     /**
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('postpaid_providers');
+        Schema::dropIfExists('prepaid_providers');
     }
 };
