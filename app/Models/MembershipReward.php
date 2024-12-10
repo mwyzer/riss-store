@@ -14,9 +14,11 @@ class MembershipReward extends Model
     protected $fillable = [
         'membershipLevelId',
         'rewardTypeId',
+        'isEnabled',
         'bonusPoints',
-        'nominalRequired',
-        'appliesEvery',
+        'nominalThreshold',
+        'multiplierType',
+        'extraConfig',
     ];
 
     public function membership()
