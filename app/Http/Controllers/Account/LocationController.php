@@ -10,17 +10,9 @@ class LocationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $locations = Location::when($request->q, function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->q . '%')
-                  ->orWhere('address', 'like', '%' . $request->q . '%');
-        })
-        ->paginate(10);
-    
-        return inertia('Account/Locations/Index', [
-            'locations' => $locations,
-        ]);
+        //
     }
 
     /**
