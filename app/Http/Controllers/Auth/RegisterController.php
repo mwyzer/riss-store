@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Mail\UserRegistered;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
@@ -47,6 +49,9 @@ class RegisterController extends Controller
 
         //assing role "customer" to user
         $user->assignRole($role);
+
+        // Kirim email setelah registrasi
+        Mail::to($user->email)->send(new UserRegistered($user));
 
         //redirect to login
         return redirect()->route('login');
