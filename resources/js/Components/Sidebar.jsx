@@ -45,23 +45,26 @@ export default function Sidebar() {
                 {hasAnyPermission(['locations.index']) &&
                     <Link href="/account/locations" className={`${url.startsWith('/account/locations') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Locations</Link>
                 }
-                {hasAnyPermission(['provider.index']) &&
-                    <Link href="/provider/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Providers</Link>
+                {hasAnyPermission(['providers.index']) &&
+                    <Link href="/provider/users" className={`${url.startsWith('/account/provider') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Providers</Link>
                 }
-                {hasAnyPermission(['customer.index']) &&
-                    <Link href="/customer/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Customers</Link>
+                {hasAnyPermission(['customers.index']) &&
+                    <Link href="/customer/users" className={`${url.startsWith('/account/customer') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Customers</Link>
                 }
-                {hasAnyPermission(['sale.index']) &&
-                    <Link href="/sale/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Sale</Link>
+                {hasAnyPermission(['sales.index']) &&
+                    <Link href="/sale/users" className={`${url.startsWith('/account/sale') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Sale</Link>
                 }
-                {hasAnyPermission(['deposit.index']) &&
-                    <Link href="/deposit/users" className={`${url.startsWith('/deposit/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Deposit</Link>
+                {hasAnyPermission(['deposits.index']) &&
+                    <Link href="/deposit/users" className={`${url.startsWith('/account/deposit') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Deposit</Link>
                 }
-                {hasAnyPermission(['paylater.index']) &&
-                    <Link href="/paylater/users" className={`${url.startsWith('/paylater/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Paylater</Link>
+                {hasAnyPermission(['paylaters.index']) &&
+                    <Link href="/paylater/users" className={`${url.startsWith('/account/paylater') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Paylater</Link>
                 }
-                {hasAnyPermission(['account.index']) &&
+                {hasAnyPermission(['accounts.index']) &&
                     <Link href="/account/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Account</Link>
+                }
+                {hasAnyPermission(['users.index']) &&
+                    <Link href="/account/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Users</Link>
                 }
 
             </div>
