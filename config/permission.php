@@ -161,6 +161,8 @@ return [
     /* Cache-specific settings */
 
     'cache' => [
+        'use_tags' => true,
+        'tag_prefix' => 'spatie_permissions_',
 
         /*
          * By default all permissions are cached for 24 hours to speed up performance.
@@ -183,4 +185,11 @@ return [
 
         'store' => 'default',
     ],
+
+    'middlewares' => [
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+    ]
 ];
+

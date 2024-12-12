@@ -24,5 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectTo(guests: '/login', users: '/account/dashboard');
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
+        // Currently empty - should define custom exception handling
+        $exceptions->render(function (\Throwable $e) {
+            // Custom exception rendering logic
+        });
     })->create();
