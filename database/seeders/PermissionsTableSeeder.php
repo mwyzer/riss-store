@@ -62,6 +62,12 @@ class PermissionsTableSeeder extends Seeder
             'sliders.index',
             'sliders.create',
             'sliders.delete',
+
+            // Warna permissions
+            'warnas.index',
+            'warnas.create',
+            'warnas.edit',
+            'warnas.delete',
         ];
 
         // Loop through each permission and create if not exists
