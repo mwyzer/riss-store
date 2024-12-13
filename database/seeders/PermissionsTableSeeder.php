@@ -68,6 +68,12 @@ class PermissionsTableSeeder extends Seeder
             'warnas.create',
             'warnas.edit',
             'warnas.delete',
+
+            // Location permissions
+            'locations.index',
+            'locations.create',
+            'locations.edit',
+            'locations.delete',
         ];
 
         // Loop through each permission and create if not exists
