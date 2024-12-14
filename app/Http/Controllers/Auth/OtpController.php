@@ -1,33 +1,49 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Models\Otp;
-use App\Http\Controllers\Controller;
+use App\Services\OTPService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Otp;
 use Carbon\Carbon;
 
-class OtpController extends Controller
+class OTPController extends Controller
 {
-    public function generate(Request $request)
+    protected $otpService;
+
+    public function __construct(OTPService $otpService)
     {
-        $token = rand(100000, 999999);
-        
+        $this->otpService = $otpService;
+    }
+
+    public function sendOtp(Request $request)
+    {
+        $request->validate(['phone_number' => 'required|numeric']);
+
+        $token = rand(1000, 9999); // Generate a 4-digit OTP
+
+        // Store OTP in database
         Otp::create([
-            'identifier' => $request->identifier,
+            'identifier' => $request->phone_number,
             'token' => $token,
             'valid_until' => Carbon::now()->addMinutes(5)
         ]);
 
-        // Send OTP via email/SMS
-        // Implement your notification logic here
+        // Send OTP via WhatsApp
+        $this->otpService->sendOtp($request->phone_number, $token);
 
         return response()->json(['message' => 'OTP sent successfully']);
     }
 
-    public function verify(Request $request)
+    public function verifyOtp(Request $request)
     {
-        $otp = Otp::where('identifier', $request->identifier)
+        $request->validate([
+            'phone_number' => 'required|numeric',
+            'token' => 'required|numeric',
+        ]);
+
+        $otp = Otp::where('identifier', $request->phone_number)
             ->where('token', $request->token)
             ->where('is_used', false)
             ->where('valid_until', '>', Carbon::now())

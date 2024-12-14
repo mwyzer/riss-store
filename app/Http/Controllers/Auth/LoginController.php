@@ -3,31 +3,28 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\OTPService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Otp;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
-    /**
-     * index
-     *
-     * @return void
-     */
+    protected $otpService;
+
+    public function __construct(OTPService $otpService)
+    {
+        $this->otpService = $otpService;
+    }
+
     public function index()
     {
-        // Return inertia
         return inertia('Auth/Login');
     }
 
-    /**
-     * store
-     *
-     * @param  mixed $request
-     * @return void
-     */
     public function store(Request $request)
     {
-        // Validate the request data
         $request->validate([
             'email'     => 'required|email',
             'password'  => 'required',
@@ -35,33 +32,60 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        // Use Auth facade instead of auth() helper
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return $this->authenticated($request, Auth::user());
+            $user = Auth::user();
+            
+            // Generate and send OTP
+            $token = rand(1000, 9999);
+            
+            Otp::create([
+                'identifier' => $user->phone_number,
+                'token' => $token,
+                'valid_until' => Carbon::now()->addMinutes(5)
+            ]);
+
+            $this->otpService->sendOtp($user->phone_number, $token);
+
+            return response()->json([
+                'message' => 'OTP sent successfully',
+                'requires_otp' => true
+            ]);
         }
 
-        // Return back with error if authentication fails
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param mixed $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    public function verifyLoginOtp(Request $request)
+    {
+        $request->validate([
+            'token' => 'required|numeric',
+        ]);
+
+        $user = Auth::user();
+
+        $otp = Otp::where('identifier', $user->phone_number)
+            ->where('token', $request->token)
+            ->where('is_used', false)
+            ->where('valid_until', '>', Carbon::now())
+            ->first();
+
+        if (!$otp) {
+            return response()->json(['message' => 'Invalid OTP'], 422);
+        }
+
+        $otp->update(['is_used' => true]);
+        $request->session()->regenerate();
+
+        return $this->authenticated($request, $user);
+    }
+
     protected function authenticated(Request $request, $user)
     {
-        // Check if the authenticated user has the 'Admin' role
         if ($user->hasRole('Admin')) {
             return redirect()->route('account.dashboard');
         }
-
-        // For other roles or users, redirect to the homepage
         return redirect()->route('web.home.index');
     }
 }
