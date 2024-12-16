@@ -8,7 +8,13 @@ class Location extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'address', 'balance'];
+    protected $fillable = ['name', 'address'];
+
+    
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     public function locationDetails()
     {

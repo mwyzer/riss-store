@@ -17,7 +17,7 @@ class LocationService extends Model
         'available',
     ];
 
-    /**
+    /**`
      * Define the relationship to the Location model.
      * Assuming there is a Location model.
      */

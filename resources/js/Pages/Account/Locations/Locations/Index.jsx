@@ -2,22 +2,22 @@
 import React from "react";
 
 //import layout
-import LayoutAccount from '../../../Layouts/Account';
+import LayoutAccount from '../../../../Layouts/Account';
 
 //import Head, usePage, Link
 import { Head, usePage, Link } from '@inertiajs/react';
 
 //import permissions
-import hasAnyPermission from '../../../Utils/Permissions';
+import hasAnyPermission from '../../../../Utils/Permissions';
 
 //import component search
-import Search from '../../../Shared/Search';
+import Search from '../../../../Shared/Search';
 
 //import component pagination
-import Pagination from '../../../Shared/Pagination';
+import Pagination from '../../../../Shared/Pagination';
 
 //import component delete
-import Delete from '../../../Shared/Delete';
+import Delete from '../../../../Shared/Delete';
 
 export default function CategoryIndex() {
 

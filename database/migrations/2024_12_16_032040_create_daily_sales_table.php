@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_services', function (Blueprint $table) {
+        Schema::create('daily_sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
-            $table->foreignId('service_type_id')->constrained('service_types')->onDelete('cascade');
-            $table->boolean('available')->default(true);
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_services');
+        Schema::dropIfExists('daily_sales');
     }
 };

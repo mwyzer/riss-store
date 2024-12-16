@@ -14,5 +14,5 @@ class ServiceType extends Model
     protected $table = 'service_types';
 
     // Fillable attributes for mass assignment
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code', 'availability'];
 }
