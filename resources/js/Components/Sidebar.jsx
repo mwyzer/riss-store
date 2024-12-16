@@ -17,12 +17,21 @@ export default function Sidebar() {
                 {hasAnyPermission(['colors.index']) &&
                     <Link href="/account/colors" className={`${url.startsWith('/account/colors') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-palette me-2"></i> Colors</Link>
                 }
-                {hasAnyPermission(['warnas.index']) &&
+                {/* {hasAnyPermission(['warnas.index']) &&
                     <Link href="/account/warnas" className={`${url.startsWith('/account/warnas') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-palette me-2"></i> Warnas</Link>
                 }
+                {hasAnyPermission(['warnas.index']) &&
+                    <Link href="/account/warnas" className={`${url.startsWith('/account/warnas') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-palette me-2"></i> Warnas</Link>
+                } */}
                 {hasAnyPermission(['categories.index']) &&
                     <Link href="/account/categories" className={`${url.startsWith('/account/categories') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-folder me-2"></i> Categories</Link>
                 }
+                {hasAnyPermission(['location.index']) &&
+                    <Link href="/account/location" className={`${url.startsWith('/account/location') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-map-marker-alt me-2"></i> Location</Link>
+                }
+                {hasAnyPermission(['customers.index']) &&
+                    <Link href="/account/users" className={`${url.startsWith('/account/users') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-users me-2"></i> Users</Link>
+}
                 {hasAnyPermission(['products.index']) &&
                     <Link href="/account/products" className={`${url.startsWith('/account/products') ? "active list-group-item list-group-item-action list-group-item-light p-3" : "list-group-item list-group-item-action list-group-item-light p-3"}`}><i className="fa fa-shopping-bag me-2"></i> Products</Link>
                 }
