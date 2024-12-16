@@ -21,7 +21,7 @@ class OTPController extends Controller
     {
         $request->validate(['phone_number' => 'required|numeric']);
 
-        $token = rand(1000, 9999); // Generate a 4-digit OTP
+        $token = rand(100000, 999999); // Generate a 6-digit OTP
 
         // Store OTP in database
         Otp::create([
