@@ -1,23 +1,38 @@
+//import react  
 import React, { useState } from "react";
+
+//import layout
 import LayoutAccount from '../../../Layouts/Account';
+
+//import Head, usePage and router
 import { Head, usePage, router } from '@inertiajs/react';
+
+//import Sweet Alert
 import Swal from 'sweetalert2';
 
-export default function WarnaCreate() {
+export default function ColorCreate() {
 
+    //destruct props "errors"
     const { errors } = usePage().props;
 
+    //state
     const [name, setName] = useState("");
     const [image, setImage] = useState(null);
 
-    const storeWarna = async (e) => {
+    //method "storeColor"
+    const storeColor = async (e) => {
         e.preventDefault();
 
-        router.post('/account/warnas', {
+        //sending data
+        router.post('/account/colors', {
+
+            //data
             name: name,
             image: image
         }, {
             onSuccess: () => {
+
+                //show alert
                 Swal.fire({
                     title: 'Success!',
                     text: 'Data saved successfully!',
@@ -32,17 +47,17 @@ export default function WarnaCreate() {
     return (
         <>
             <Head>
-                <title>Create Warna - Geek Store</title>
+                <title>Create Color - Geek Store</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-success">
                             <div className="card-header">
-                                <span className="font-weight-bold"><i className="fa fa-palette"></i> Add New Warna</span>
+                                <span className="font-weight-bold"><i className="fa fa-palette"></i> Add New Color</span>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={storeWarna}>
+                                <form onSubmit={storeColor}>
 
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Image</label>
@@ -55,8 +70,8 @@ export default function WarnaCreate() {
                                     )}
 
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">Warna Name</label>
-                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Warna Name" />
+                                        <label className="form-label fw-bold">Color Name</label>
+                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Color Name" />
                                     </div>
                                     {errors.name && (
                                         <div className="alert alert-danger">
@@ -76,4 +91,5 @@ export default function WarnaCreate() {
             </LayoutAccount>
         </>
     )
+
 }

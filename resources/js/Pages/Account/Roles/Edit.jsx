@@ -1,5 +1,5 @@
 //import react  
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 //import layout
 import LayoutAccount from '../../../Layouts/Account';
@@ -21,41 +21,52 @@ export default function RoleEdit() {
 
     //define method "handleCheckboxChange"
     const handleCheckboxChange = (e) => {
-        const value = e.target.value;
 
-        setPermissionsData((prevPermissions) => 
-            prevPermissions.includes(value)
-                ? prevPermissions.filter((permission) => permission !== value) // Remove if exists
-                : [...prevPermissions, value] // Add if not exists
-        );
-    };
+        //define data
+        let data = permissionsData;
 
-    //define method for updating role
-    const updateRole = (e) => {
+        //check item already exists, if so, remove with filter
+        if (data.some((name) => name === e.target.value)) {
+            data = data.filter((name) => name !== e.target.value);
+        } else {
+
+            //push new item to array
+            data.push(e.target.value);
+        }
+
+        //set data to state
+        setPermissionsData(data);
+    }
+
+    //define method
+    const updateRole = async (e) => {
         e.preventDefault();
 
         //sending data
         router.put(`/account/roles/${role.id}`, {
-            name,
+
+            //data
+            name: name,
             permissions: permissionsData
         }, {
             onSuccess: () => {
+
                 //show alert
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Role updated successfully!',
+                    text: 'Data updated successfully!',
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 1500
-                });
-            },
+                })
+            }
         });
-    };
+    }
 
     return (
         <>
             <Head>
-                <title>Edit Role - Geek Store</title>
+                <title>Edit Roles - Geek Store</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-4">
@@ -68,41 +79,29 @@ export default function RoleEdit() {
                                 <form onSubmit={updateRole}>
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Role Name</label>
-                                        <input 
-                                            type="text" 
-                                            className="form-control" 
-                                            value={name} 
-                                            onChange={(e) => setName(e.target.value)} 
-                                            placeholder="Enter Role Name"
-                                        />
-                                        {errors.name && (
-                                            <div className="alert alert-danger mt-2">
-                                                {errors.name}
-                                            </div>
-                                        )}
+                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Role Name"/>
                                     </div>
-                                    <hr />
+                                    {errors.name && (
+                                        <div className="alert alert-danger">
+                                            {errors.name}
+                                        </div>
+                                    )}
+                                    <hr/>
                                     <div className="mb-3">
                                         <label className="fw-bold">Permissions</label>
-                                        <br />
-                                        {permissions.map((permission) => (
-                                            <div className="form-check form-check-inline" key={permission.id}>
-                                                <input 
-                                                    className="form-check-input" 
-                                                    type="checkbox" 
+                                        <br/>
+                                        {permissions.map((permission, index) => (
+                                            <div className="form-check form-check-inline" key={index}>
+                                                <input className="form-check-input" type="checkbox" 
                                                     value={permission.name}
-                                                    checked={permissionsData.includes(permission.name)} // Use `checked` instead of `defaultChecked`
+                                                    defaultChecked={permissionsData.some((name) => name === permission.name ?? true)}
                                                     onChange={handleCheckboxChange}
                                                     id={`check-${permission.id}`} 
                                                 />
-                                                <label 
-                                                    className="form-check-label" 
-                                                    htmlFor={`check-${permission.id}`}
-                                                >
-                                                    {permission.name}
-                                                </label>
+                                                <label className="form-check-label" htmlFor={`check-${permission.id}`}>{ permission.name }</label>
                                             </div>
                                         ))}
+
                                         {errors.permissions && (
                                             <div className="alert alert-danger mt-2">
                                                 {errors.permissions}
@@ -110,19 +109,8 @@ export default function RoleEdit() {
                                         )}
                                     </div>
                                     <div>
-                                        <button type="submit" className="btn btn-md btn-success me-2">
-                                            <i className="fa fa-save"></i> Update
-                                        </button>
-                                        <button 
-                                            type="reset" 
-                                            className="btn btn-md btn-warning" 
-                                            onClick={() => {
-                                                setName(role.name);
-                                                setPermissionsData(role.permissions.map((obj) => obj.name));
-                                            }}
-                                        >
-                                            <i className="fa fa-redo"></i> Reset
-                                        </button>
+                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> Update</button>
+                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> Reset</button>
                                     </div>
                                 </form>
                             </div>
@@ -131,5 +119,6 @@ export default function RoleEdit() {
                 </div>
             </LayoutAccount>
         </>
-    );
+    )
+
 }

@@ -31,7 +31,7 @@ Route::post('/otp/generate', [OtpController::class, 'generate'])->name('otp.gene
 Route::post('/otp/verify', [OtpController::class, 'verify'])->name('otp.verify');
 
 // Account Routes
-Route::middleware(['auth'])->prefix('account')->group(function () {
+Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', \App\Http\Controllers\Account\DashboardController::class)->name('account.dashboard');
 
     Route::middleware(['permission:permissions.index'])->group(function () {
@@ -47,8 +47,8 @@ Route::middleware(['auth'])->prefix('account')->group(function () {
     Route::resource('/colors', \App\Http\Controllers\Account\ColorController::class, ['as' => 'account'])
         ->middleware('permission:colors.index|colors.create|colors.edit|colors.delete');
 
-    Route::resource('/warnas', App\Http\Controllers\Account\WarnaController::class, ['as' => 'account'])
-        ->middleware('permission:warnas.index|warnas.create|warnas.edit|warnas.delete');
+    Route::resource('/warnas', \App\Http\Controllers\Account\ColorController::class, ['as' => 'account'])
+    ->middleware('permission:warnas.index|warnas.create|warnas.edit|warnas.delete');
 
     Route::resource('/categories', \App\Http\Controllers\Account\CategoryController::class, ['as' => 'account'])
         ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
@@ -70,6 +70,7 @@ Route::middleware(['auth'])->prefix('account')->group(function () {
     Route::resource('/locations', \App\Http\Controllers\Account\LocationController::class, ['as' => 'account'])
         ->middleware('permission:locations.index|locations.create|locations.show|locations.edit|locations.delete');
 });
+
 // Socialite Routes
 Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
 Route::get('/auth/google/callback', [SocialiteController::class, 'callback']);
