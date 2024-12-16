@@ -1,39 +1,24 @@
-//import react  
 import React, { useState } from "react";
-
-//import layout
 import LayoutAccount from '../../../Layouts/Account';
-
-//import Head, usePage and router
 import { Head, usePage, router } from '@inertiajs/react';
-
-//import Sweet Alert
 import Swal from 'sweetalert2';
 
-export default function ColorEdit() {
+export default function WarnaEdit() {
 
-    //destruct props "errors" & "color"
-    const { errors, color } = usePage().props;
+    const { errors, warna } = usePage().props;
 
-    //state
-    const [name, setName] = useState(color.name);
+    const [name, setName] = useState(warna.name);
     const [image, setImage] = useState(null);
 
-    //method "updateColor"
-    const updateColor = async (e) => {
+    const updateWarna = async (e) => {
         e.preventDefault();
 
-        //sending data
-        router.post(`/account/colors/${color.id}`, {
-
-            //data
+        router.post(`/account/warnas/${warna.id}`, {
             name: name,
             image: image,
             _method: "PUT"
         }, {
             onSuccess: () => {
-
-                //show alert
                 Swal.fire({
                     title: 'Success!',
                     text: 'Data updated successfully!',
@@ -48,17 +33,17 @@ export default function ColorEdit() {
     return (
         <>
             <Head>
-                <title>Edit Color - Geek Store</title>
+                <title>Edit Warna - Geek Store</title>
             </Head>
             <LayoutAccount>
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-success">
                             <div className="card-header">
-                                <span className="font-weight-bold"><i className="fa fa-palette"></i> Edit Color</span>
+                                <span className="font-weight-bold"><i className="fa fa-palette"></i> Edit Warna</span>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={updateColor}>
+                                <form onSubmit={updateWarna}>
 
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Image</label>
@@ -71,8 +56,8 @@ export default function ColorEdit() {
                                     )}
 
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">Color Name</label>
-                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Color Name" />
+                                        <label className="form-label fw-bold">Warna Name</label>
+                                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Warna Name" />
                                     </div>
                                     {errors.name && (
                                         <div className="alert alert-danger">
@@ -92,5 +77,4 @@ export default function ColorEdit() {
             </LayoutAccount>
         </>
     )
-
 }
