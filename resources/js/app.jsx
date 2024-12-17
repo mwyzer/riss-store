@@ -1,5 +1,6 @@
 import './bootstrap';
 import { createInertiaApp } from '@inertiajs/react'
+import { ThemeProvider } from "./Context/ThemeContext";
 import { createRoot } from 'react-dom/client'
 
 createInertiaApp({
@@ -8,7 +9,11 @@ createInertiaApp({
     return pages[`./Pages/${name}.jsx`]
   },
   setup({ el, App, props }) {
-    createRoot(el).render(<App {...props} />)
+    createRoot(el).render(
+      <ThemeProvider>
+        <App {...props} />
+      </ThemeProvider>
+    )
   },
   progress: {
     // The delay after which the progress bar will appear, in milliseconds...

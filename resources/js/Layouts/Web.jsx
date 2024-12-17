@@ -11,7 +11,7 @@ export default function LayoutWeb({children}) {
 
     return(
         <>
-            <Header />
+            {/* <Header /> */}
             <div className="main">
                 {children}
 

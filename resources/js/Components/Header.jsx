@@ -9,18 +9,32 @@ export default function Header() {
     return (
         <>
             <nav className="navbar-expand-md navbar-dark fixed-top bg-green shadow">
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-md-8">
-                            <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1">
-                                <Link href="/" className="d-flex align-items-center col-md-12 mb-2 mb-md-0 text-white text-decoration-none">
-                                    <img src="/assets/images/logo.png" width="50" />
-                                    <h5 className="mb-0"><strong>WILZIO</strong></h5>
-                                </Link>
-                            </header>
-                        </div>
-                    </div>
-                </div>
+            <div 
+            className="position-absolute" 
+            style={{
+                width: '448px',
+                height: '207px',
+                left: '50%',
+                transform: 'translateX(-50%)', // Center horizontally
+                top: '-44px', 
+                backgroundColor: '#0036AA',
+                borderRadius: '0px',
+            }}
+        >
+            <div className="d-flex justify-content-center align-items-center h-100">
+                <img 
+                    src="your-photo-url.jpg" 
+                    alt="Profile" 
+                    style={{
+                        width: '120px', 
+                        height: '120px', 
+                        borderRadius: '50%', // Makes the image circular
+                        objectFit: 'cover',
+                        border: '4px solid white', // White border around the photo
+                    }}
+                />
+            </div>
+        </div>
             </nav>
         </>
     )
