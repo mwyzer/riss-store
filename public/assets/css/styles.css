@@ -441,7 +441,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 .bg-green {
   /* background-color: #43a047; */
-  background-color: #8F4030;
+  background-color: #0036AA;
 }
 
 .btn-cart {
@@ -465,6 +465,8 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   flex-basis: 0;
   flex-grow: 0.2;
   text-align: center;
+  color: #000000;
+  background: #0036AA;
 }
 
 @media only screen and (max-width: 768px) {
@@ -473,6 +475,8 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     flex-basis: 0;
     flex-grow: 2;
     text-align: center;
+    color: #000000;
+    background: #0036AA;
   }
 }
 
