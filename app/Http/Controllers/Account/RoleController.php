@@ -58,15 +58,17 @@ class RoleController extends Controller
          * Validate request
          */
         $request->validate([
-            'name'          => 'required',
-            'permissions'   => 'required',
+            'name'          => 'required|string|max:50',
+            'permissions'   => 'nullable|required',
         ]);
 
         //create role
         $role = Role::create(['name' => $request->name]);
 
         //assign permissions to role
-        $role->givePermissionTo($request->permissions);
+        if ($request->filled('permissions')) {
+            $role->givePermissionTo($request->permissions);
+        }
 
         //redirect
         return redirect()->route('account.roles.index');
@@ -106,15 +108,15 @@ class RoleController extends Controller
          * validate request
          */
         $request->validate([
-            'name'          => 'required',
-            'permissions'   => 'required',
+            'name'          => 'required|string|max:50',
+            'permissions'   => 'nullable|array',
         ]);
 
         //update role
         $role->update(['name' => $request->name]);
 
         //sync permissions
-        $role->syncPermissions($request->permissions);
+        $role->syncPermissions($request->permissions ?? []);
 
         //redirect
         return redirect()->route('account.roles.index');

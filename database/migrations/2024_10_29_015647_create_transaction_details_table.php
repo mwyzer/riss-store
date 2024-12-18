@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
-            $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
+            $table->uuid('id')->primary(); // Use UUID for the primary key
+            $table->uuid('transaction_id'); // Use UUID for transaction_id foreign key
+            $table->uuid('product_id'); // Use UUID for product_id foreign key
             $table->string('product_image');
             $table->string('color');
             $table->string('color_image');
@@ -22,6 +22,10 @@ return new class extends Migration
             $table->integer('qty');
             $table->bigInteger('price');
             $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
     }
 

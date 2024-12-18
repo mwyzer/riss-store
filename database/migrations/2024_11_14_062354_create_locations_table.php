@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->id(); // Primary key
+            $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('name')->index(); // Name of the location with indexing for faster searches
             $table->text('address'); // Address of the location
             $table->timestamps(); // Created at and updated at timestamps

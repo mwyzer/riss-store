@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
-            $table->id(); // Auto-incrementing primary key
-            $table->foreignId('location_id')->constrained()->onDelete('cascade'); // Foreign key to the locations table
+            $table->uuid('id')->primary(); // UUID for the primary key
+
+            // UUID for location_id referencing locations table
+            $table->uuid('location_id');
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->cascadeOnDelete();
+
             $table->string('stock_name'); // Name of the stock
             $table->timestamps(); // Adds created_at and updated_at columns
             $table->softDeletes(); // Adds deleted_at column for soft deletes

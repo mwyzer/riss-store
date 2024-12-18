@@ -12,11 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('location_services', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
-            $table->foreignId('service_type_id')->constrained('service_types')->onDelete('cascade');
-            $table->boolean('available')->default(true);
-            $table->timestamps();
+            $table->uuid('id')->primary(); // UUID for the primary key
+
+            // Foreign key for location_id
+            $table->uuid('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->cascadeOnDelete();
+
+            // Foreign key for service_type_id
+            $table->uuid('service_type_id');
+            $table->foreign('service_type_id')->references('id')->on('service_types')->cascadeOnDelete();
+
+            $table->boolean('available')->default(true); // Availability status
+            $table->timestamps(); // Created at and updated at timestamps
         });
     }
 

@@ -12,18 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prepaid_providers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary(); // UUID as primary key
             $table->string('number')->unique(); // Phone number
             $table->string('provider_name'); // Provider name
-            $table->foreignId('location_id') // Foreign key to locations table
-                  ->constrained('locations')
-                  ->onDelete('cascade'); // Cascade delete if location is deleted
+
+            // Foreign key for location_id (UUID)
+            $table->uuid('location_id');
+            $table->foreign('location_id')
+                  ->references('id')
+                  ->on('locations')
+                  ->cascadeOnDelete(); // Cascade delete if location is deleted
+
             $table->string('position')->nullable(); // Position or ISP reference
             $table->string('holder'); // Name of holder
             $table->enum('status', ['Terpasang', 'Stand By', 'Bermasalah'])->default('Terpasang'); // Status
             $table->integer('limit')->nullable(); // Limit in currency
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestamps(); // Adds created_at and updated_at
+            $table->softDeletes(); // Adds deleted_at for soft deletes
         });
     }
 

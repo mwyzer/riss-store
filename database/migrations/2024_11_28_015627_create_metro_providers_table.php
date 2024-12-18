@@ -12,17 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('metro_providers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary(); // UUID for the primary key
+            
             $table->string('number')->unique(); // Metro number (e.g., TLK - SID 988277211)
             $table->string('provider'); // Provider name (e.g., Telkom, Indosat, Icon Plus)
-            $table->foreignId('location_id') // Foreign key to locations table
-                ->constrained('locations')
-                ->onDelete('cascade'); // Cascade delete if location is deleted
+
+            // Foreign key for location_id (UUID)
+            $table->uuid('location_id');
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->cascadeOnDelete(); // Cascade delete if location is deleted
+
             $table->string('position')->nullable(); // Position (e.g., ISP-01, ISP-02)
             $table->string('holder'); // Holder's name (e.g., Idam, Natanel)
             $table->enum('status', ['Terpasang', 'Stand By', 'Bermasalah'])->default('Terpasang'); // Status
-            $table->timestamps();
-            $table->softDeletes();
+            
+            $table->timestamps(); // Created at and updated at timestamps
+            $table->softDeletes(); // Soft delete timestamp
         });
     }
 

@@ -13,24 +13,27 @@ return new class extends Migration
     {
         if (!Schema::hasTable('invoices')) {
             Schema::create('invoices', function (Blueprint $table) {
-                $table->id(); // Primary key
+                $table->uuid('id')->primary(); // UUID for the primary key
                 $table->integer('total_amount'); // Total amount
                 $table->integer('amount_paid'); // Amount paid
                 $table->integer('amount_due'); // Amount due
-        
-                // Add foreign key if the statuses table exists
+
+                // Foreign key for statuses table
                 if (Schema::hasTable('statuses')) {
-                    $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade'); // Foreign key for status
+                    $table->uuid('status_id'); // UUID foreign key for status
+                    $table->foreign('status_id')->references('id')->on('statuses')->cascadeOnDelete();
                 } else {
-                    $table->unsignedBigInteger('status_id'); // Placeholder for foreign key
+                    $table->uuid('status_id')->nullable(); // Placeholder for status foreign key
                 }
-        
-                $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade'); // Foreign key for customer
+
+                // Foreign key for customers table
+                $table->uuid('customer_id'); // UUID foreign key for customers
+                $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete();
+
                 $table->timestamps(); // Created at and updated at timestamps
-                $table->softDeletes();
+                $table->softDeletes(); // Soft deletes column
             });
         }
-        
     }
 
     /**

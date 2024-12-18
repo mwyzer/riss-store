@@ -28,10 +28,24 @@ class CustomerStatusHistory extends Model
     ];
 
     /**
+     * The data type of the primary key is UUID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * Define the relationship with the Customer model.
      */
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 }

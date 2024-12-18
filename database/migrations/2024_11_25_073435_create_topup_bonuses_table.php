@@ -12,13 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('topup_bonuses', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->foreignId('level_id')->constrained('memberships')->onDelete('cascade'); // Foreign key referencing the 'memberships' table
+            $table->uuid('id')->primary(); // UUID for the primary key
+            $table->uuid('level_id'); // UUID for the foreign key referencing memberships
             $table->integer('nominal_topup'); // Nominal top-up value
             $table->string('berlaku_tiap'); // Apply for each (e.g., time period or conditions)
             $table->timestamps(); // Created at and updated at timestamps
+
+            // Define foreign key constraint
+            $table->foreign('level_id')
+                ->references('id')
+                ->on('memberships')
+                ->cascadeOnDelete();
         });
     }
+
     /**
      * Reverse the migrations.
      */

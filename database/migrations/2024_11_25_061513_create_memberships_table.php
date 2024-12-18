@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('memberships', function (Blueprint $table) {
-            $table->id(); // Primary key
+            $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('level_name'); // Membership level name
             $table->text('description')->nullable(); // Description of the membership level
             $table->boolean('is_active')->default(true); // Active status of the membership

@@ -12,11 +12,14 @@ class CreateReferralLevelsTable extends Migration
     public function up(): void
     {
         Schema::create('referral_levels', function (Blueprint $table) {
-            $table->id(); // Primary key
+            $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('levelName', 255); // Referral level name
-            $table->foreignId('membershipId')->constrained('memberships')->onDelete('cascade'); // Foreign key referencing memberships
+            $table->uuid('membershipId'); // UUID for the foreign key
             $table->timestamps(); // Created at and updated at timestamps
             $table->softDeletes(); // Deleted at timestamp for soft deletes
+
+            // Define foreign key constraint
+            $table->foreign('membershipId')->references('id')->on('memberships')->cascadeOnDelete();
         });
     }
 

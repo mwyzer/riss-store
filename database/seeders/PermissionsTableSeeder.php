@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -13,72 +12,60 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Define permissions for each section
+        // List of permissions
         $permissions = [
             // Dashboard permissions
-            'dashboard.index',
-            'dashboard.statistics',
-            'dashboard.chart',
+            ['name' => 'dashboard.index', 'guard_name' => 'web'],
+            ['name' => 'dashboard.statistics', 'guard_name' => 'web'],
+            ['name' => 'dashboard.chart', 'guard_name' => 'web'],
 
             // User permissions
-            'users.index',
-            'users.create',
-            'users.edit',
-            'users.delete',
+            ['name' => 'users.index', 'guard_name' => 'web'],
+            ['name' => 'users.create', 'guard_name' => 'web'],
+            ['name' => 'users.edit', 'guard_name' => 'web'],
+            ['name' => 'users.delete', 'guard_name' => 'web'],
 
             // Role permissions
-            'roles.index',
-            'roles.create',
-            'roles.edit',
-            'roles.delete',
+            ['name' => 'roles.index', 'guard_name' => 'web'],
+            ['name' => 'roles.create', 'guard_name' => 'web'],
+            ['name' => 'roles.edit', 'guard_name' => 'web'],
+            ['name' => 'roles.delete', 'guard_name' => 'web'],
 
-            // Permission permissions
-            'permissions.index',
+            // Permissions permissions
+            ['name' => 'permissions.index', 'guard_name' => 'web'],
 
-            // Color permissions
-            'colors.index',
-            'colors.create',
-            'colors.edit',
-            'colors.delete',
+            // Colors permissions
+            ['name' => 'colors.index', 'guard_name' => 'web'],
+            ['name' => 'colors.create', 'guard_name' => 'web'],
+            ['name' => 'colors.edit', 'guard_name' => 'web'],
+            ['name' => 'colors.delete', 'guard_name' => 'web'],
 
-            // Category permissions
-            'categories.index',
-            'categories.create',
-            'categories.edit',
-            'categories.delete',
+            // Categories permissions
+            ['name' => 'categories.index', 'guard_name' => 'web'],
+            ['name' => 'categories.create', 'guard_name' => 'web'],
+            ['name' => 'categories.edit', 'guard_name' => 'web'],
+            ['name' => 'categories.delete', 'guard_name' => 'web'],
 
-            // Product permissions
-            'products.index',
-            'products.create',
-            'products.show',
-            'products.edit',
-            'products.delete',
+            // Products permissions
+            ['name' => 'products.index', 'guard_name' => 'web'],
+            ['name' => 'products.create', 'guard_name' => 'web'],
+            ['name' => 'products.show', 'guard_name' => 'web'],
+            ['name' => 'products.edit', 'guard_name' => 'web'],
+            ['name' => 'products.delete', 'guard_name' => 'web'],
 
-            // Transaction permissions
-            'transactions.index',
-            'transactions.show',
+            // Transactions permissions
+            ['name' => 'transactions.index', 'guard_name' => 'web'],
+            ['name' => 'transactions.show', 'guard_name' => 'web'],
 
-            // Slider permissions
-            'sliders.index',
-            'sliders.create',
-            'sliders.delete',
-
-            // Warna permissions
-            'warnas.index',
-            'warnas.create',
-            'warnas.edit',
-            'warnas.delete',
-
-            // Location permissions
-            // 'locations.index',
-            // 'locations.create',
-            // 'locations.edit',
-            // 'locations.delete',
+            // Sliders permissions
+            ['name' => 'sliders.index', 'guard_name' => 'web'],
+            ['name' => 'sliders.create', 'guard_name' => 'web'],
+            ['name' => 'sliders.delete', 'guard_name' => 'web'],
         ];
 
-        // Loop through each permission and create if not exists
-        foreach ($permissions as $permissionName) {
-            Permission::firstOrCreate(['name' => $permissionName, 'guard_name' => 'web']);
+        // Create permissions only if they do not already exist
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate($permission);
         }
     }
 }

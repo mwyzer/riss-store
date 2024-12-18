@@ -12,14 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('otps', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id'); // Foreign key for the user
+            $table->uuid('id')->primary(); // UUID as the primary key
+            
+            $table->uuid('user_id'); // Foreign key for the user
             $table->string('otp', 6); // OTP code, typically 6 digits
             $table->timestamp('expires_at'); // OTP expiration time
-            $table->timestamps();
+            $table->timestamps(); // Created at and updated at timestamps
 
             // Add foreign key constraint
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 

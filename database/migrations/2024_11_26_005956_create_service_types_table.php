@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_types', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('name'); // The name of the service type (e.g., Dedicated, Broadband, Voucher)
             $table->string('code'); // A short code for the service type (e.g., DC, BD, VC)
             $table->string('availability'); // Availability status (e.g., Tersedia, Tidak ada)

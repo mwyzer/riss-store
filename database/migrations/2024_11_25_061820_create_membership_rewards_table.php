@@ -13,14 +13,18 @@ return new class extends Migration
     {
         if (!Schema::hasTable('membership_rewards')) {
             Schema::create('membership_rewards', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('membershipLevelId')->constrained('memberships')->onDelete('cascade');
-                $table->foreignId('rewardTypeId')->constrained('reward_types')->onDelete('cascade');
-                $table->unsignedInteger('bonusPoints')->nullable();
-                $table->decimal('nominalRequired', 10, 2)->nullable();
-                $table->string('appliesEvery', 255)->nullable();
-                $table->timestamps();
-                $table->softDeletes();
+                $table->uuid('id')->primary(); // UUID for the primary key
+                $table->uuid('membershipLevelId'); // UUID for the foreign key
+                $table->uuid('rewardTypeId'); // UUID for the foreign key
+                $table->unsignedInteger('bonusPoints')->nullable(); // Optional bonus points
+                $table->integer('nominalRequired')->nullable(); // Optional nominal required
+                $table->string('appliesEvery', 255)->nullable(); // Applies every interval
+                $table->timestamps(); // Created at and updated at timestamps
+                $table->softDeletes(); // Soft deletes column
+
+                // Define foreign key constraints
+                $table->foreign('membershipLevelId')->references('id')->on('memberships')->cascadeOnDelete();
+                $table->foreign('rewardTypeId')->references('id')->on('reward_types')->cascadeOnDelete();
             });
         }
     }

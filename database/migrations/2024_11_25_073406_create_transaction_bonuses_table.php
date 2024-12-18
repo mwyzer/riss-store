@@ -1,4 +1,4 @@
-`<?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_bonuses', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->foreignId('levelId') // Define the foreign key
-                ->constrained('membership_levels') // Reference the `membership_levels` table
+            $table->uuid('id')->primary(); // UUID for the primary key
+            
+            $table->uuid('levelId'); // UUID for the foreign key
+            $table->foreign('levelId') // Define the foreign key
+                ->references('id')
+                ->on('membership_levels') // Reference the `membership_levels` table
                 ->onDelete('cascade'); // Cascade on delete
+
             $table->boolean('bonusEnabled')->default(true); // Indicates if the bonus is enabled
             $table->integer('bonusPoints'); // Bonus points for the transaction
             $table->integer('nominalTransaction'); // Minimum transaction amount to earn the bonus

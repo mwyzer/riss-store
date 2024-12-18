@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reward_types', function (Blueprint $table) {
-            $table->id(); // Primary key
+            $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('name')->unique(); // Name of the reward type
             $table->text('description')->nullable(); // Optional description of the reward type
             $table->timestamps(); // Created at and updated at timestamps

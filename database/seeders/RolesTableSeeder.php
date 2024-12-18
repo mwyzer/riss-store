@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -13,13 +12,21 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Define roles you want to create
-        $roles = ['admin', 'seller', 'finance', 'mitra', 'partner', 'marketing'];
+        // List of roles
+        $roles = [
+            'admin',
+            'customer',
+            'seller',
+            'partner',
+            'finance',
+            'marketing',
+            'NOC',
+            'CSP',
+        ];
 
-        // Loop through each role
-        foreach ($roles as $roleName) {
-            // Check if the role already exists before creating
-            Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
+        // Create roles only if they do not already exist
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
     }
 }

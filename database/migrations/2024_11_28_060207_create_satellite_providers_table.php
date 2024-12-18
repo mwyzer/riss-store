@@ -12,15 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('satellite_providers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary(); // UUID as primary key
             $table->string('number')->unique(); // Unique Satellite number (e.g., SLK - SID 988277211)
             $table->string('provider'); // Provider name (e.g., OneWeb, Star-TLKM, Ubiqu)
-            $table->foreignId('location_id') // Foreign key to locations table
-                ->constrained('locations')
-                ->onDelete('cascade'); // Cascade delete if location is deleted
+
+            // UUID for location_id foreign key
+            $table->uuid('location_id');
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->cascadeOnDelete(); // Cascade delete if location is deleted
+
             $table->string('position')->nullable(); // Position (e.g., ISP-01, ISP-02)
             $table->string('holder'); // Holder's name (e.g., Idam, Natanel, Surang)
             $table->enum('status', ['Terpasang', 'Stand By', 'Bermasalah'])->default('Terpasang'); // Status
+            
             $table->timestamps(); // Created at and updated at timestamps
         });
     }
@@ -30,10 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('satellite_providers', function (Blueprint $table) {
-            $table->dropForeign(['location_id']); // Drop the foreign key constraint
-        });
-
         Schema::dropIfExists('satellite_providers'); // Drop the table
     }
 };

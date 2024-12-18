@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('province_id')->references('id')->on('provinces')->cascadeOnDelete();
+            $table->uuid('id')->primary(); // Use UUID for the primary key
+            $table->uuid('province_id'); // Use UUID for the foreign key
             $table->string('name');
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('province_id')->references('id')->on('provinces')->cascadeOnDelete();
         });
     }
 

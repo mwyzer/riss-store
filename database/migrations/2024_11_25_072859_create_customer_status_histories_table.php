@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_status_histories', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->foreignId('customerId')->constrained('customers')->onDelete('cascade'); // Foreign key for customers
+            $table->uuid('id')->primary(); // UUID for the primary key
+            $table->uuid('customerId'); // UUID for the foreign key
             $table->string('status', 255); // Customer status
             $table->timestamp('changedAt')->nullable(); // Status change timestamp
             $table->timestamps(); // Created at and updated at timestamps
+
+            // Define foreign key constraint
+            $table->foreign('customerId')->references('id')->on('customers')->cascadeOnDelete();
         });
     }
 
