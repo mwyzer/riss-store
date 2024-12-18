@@ -6,6 +6,7 @@ use App\Models\Province;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ProvincesTableSeeder extends Seeder
 {
@@ -23,9 +24,9 @@ class ProvincesTableSeeder extends Seeder
         if ($response->successful() && isset($response['rajaongkir']) && isset($response['rajaongkir']['results'])) {
             // Loop through each province in the response data
             foreach ($response['rajaongkir']['results'] as $province) {
-                // Insert each province into the "provinces" table
+                // Insert each province into the "provinces" table with UUID
                 Province::create([
-                    'id'    => $province['province_id'],
+                    'id'    => Str::uuid()->toString(), // Generate UUID
                     'name'  => $province['province']
                 ]);
             }

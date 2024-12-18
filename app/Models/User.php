@@ -2,33 +2,60 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
+
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use  HasFactory, Notifiable, HasRoles;
 
     /**
-     * The "booted" method to assign UUIDs automatically.
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
-    protected static function booted()
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * getPermissionArray
+     *
+     * @return void
+     */
+    public function getPermissionArray()
     {
-        static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = Str::uuid();
-            }
+        return $this->getAllPermissions()->mapWithKeys(function ($pr) {
+            return [$pr['name'] => true];
         });
     }
-
-    /**
-     * Override the incrementing property.
-     */
-    public $incrementing = false;
-
-    /**
-     * The primary key type.
-     */
-    protected $keyType = 'string';
 }

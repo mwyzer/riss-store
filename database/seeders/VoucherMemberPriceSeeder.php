@@ -4,26 +4,27 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\VoucherMemberPrice;
+use Illuminate\Support\Str;
 
 class VoucherMemberPriceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // Insert sample data
+        // Insert sample data with UUIDs
         VoucherMemberPrice::create([
-            'voucherProfileId' => 1, // Example ID, replace with actual data
-            'memberLevelId' => 1,    // Example ID, replace with actual data
+            'id' => (string) Str::uuid(), // Assign a UUID for the primary key
+            'voucherProfileId' => (string) Str::uuid(), // Example UUID, replace with actual data
+            'memberLevelId' => (string) Str::uuid(),    // Example UUID, replace with actual data
             'pricePoints' => 1000,   // Example points, replace with actual data
         ]);
 
         VoucherMemberPrice::create([
-            'voucherProfileId' => 2,
-            'memberLevelId' => 2,
+            'id' => (string) Str::uuid(), // Assign a UUID for the primary key
+            'voucherProfileId' => (string) Str::uuid(), // Example UUID, replace with actual data
+            'memberLevelId' => (string) Str::uuid(),    // Example UUID, replace with actual data
             'pricePoints' => 2000,
         ]);
 

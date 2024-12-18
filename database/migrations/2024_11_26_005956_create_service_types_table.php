@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('service_types', function (Blueprint $table) {
             $table->uuid('id')->primary(); // UUID for the primary key
             $table->string('name'); // The name of the service type (e.g., Dedicated, Broadband, Voucher)
-            $table->string('code'); // A short code for the service type (e.g., DC, BD, VC)
+            $table->string('code')->unique(); // A short code for the service type (e.g., DC, BD, VC)
             $table->string('availability'); // Availability status (e.g., Tersedia, Tidak ada)
             $table->timestamps();
         });

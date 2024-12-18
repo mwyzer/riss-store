@@ -59,17 +59,18 @@ class UserController extends Controller
          */
         $request->validate([
             'name'     => 'required',
-            'email'    => 'required|unique:users',
+            'email'    => 'required|unique:users,email',
             'password' => 'required|confirmed',
         ]);
 
         /**
-         * Create user
+         * Create user with UUID
          */
         $user = User::create([
+            'id'       => \Illuminate\Support\Str::uuid()->toString(), // Generate UUID for the id
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
         ]);
 
         //assign roles to user
@@ -82,7 +83,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -104,38 +105,37 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        //find user by UUID
+        $user = User::findOrFail($id);
+
         /**
          * validate request
          */
         $request->validate([
             'name'     => 'required',
             'email'    => 'required|unique:users,email,'.$user->id,
-            'password' => 'nullable|confirmed' 
+            'password' => 'nullable|confirmed',
         ]);
 
         /**
          * check password is empty
          */
-        if($request->password == '') {
-
+        if (empty($request->password)) {
             $user->update([
-                'name'     => $request->name,
-                'email'    => $request->email
+                'name'  => $request->name,
+                'email' => $request->email,
             ]);
-
         } else {
-                
             $user->update([
                 'name'     => $request->name,
                 'email'    => $request->email,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
             ]);
-            
         }
 
         //assign roles to user
@@ -148,12 +148,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //find user
+        //find user by UUID
         $user = User::findOrFail($id);
 
         //delete user
