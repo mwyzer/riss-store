@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            // Use UUID for the primary key
-            $table->uuid('id')->primary();
+            // Regular auto-incrementing ID
+            $table->id();
 
-            // Use UUID for the foreign key
-            $table->uuid('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            // Regular foreign key relationship
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
 
             $table->string('title');
             $table->string('slug');

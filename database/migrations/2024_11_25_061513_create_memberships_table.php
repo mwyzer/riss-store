@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('memberships', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
-            $table->string('level_name'); // Membership level name
-            $table->text('description')->nullable(); // Description of the membership level
-            $table->boolean('is_active')->default(true); // Active status of the membership
-            $table->json('rewards')->nullable(); // JSON field to store rewards
+            $table->id(); // Changed to auto-incrementing ID
+            $table->string('level_name');
+            $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->json('rewards')->nullable();
             $table->timestamps(); // Created at and updated at timestamps
         });
     }

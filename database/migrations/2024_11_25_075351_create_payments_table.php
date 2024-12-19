@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
-            $table->uuid('invoice_id'); // UUID for the foreign key referencing invoices
+            $table->id(); // Auto-incrementing integer primary key
+            $table->unsignedBigInteger('invoice_id'); // Integer foreign key referencing invoices
             $table->integer('amount'); // Payment amount
             $table->timestamps(); // Created at and updated at timestamps
 

@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('metro_providers', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
+            $table->id(); // Auto-incrementing ID for the primary key
             
             $table->string('number')->unique(); // Metro number (e.g., TLK - SID 988277211)
             $table->string('provider'); // Provider name (e.g., Telkom, Indosat, Icon Plus)
 
-            // Foreign key for location_id (UUID)
-            $table->uuid('location_id');
+            // Foreign key for location_id (unsignedBigInteger)
+            $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')
                 ->references('id')
                 ->on('locations')

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_status_histories', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
-            $table->uuid('customerId'); // UUID for the foreign key
+            $table->id(); // Auto-incrementing integer primary key
+            $table->unsignedBigInteger('customerId'); // Foreign key as integer
             $table->string('status', 255); // Customer status
             $table->timestamp('changedAt')->nullable(); // Status change timestamp
             $table->timestamps(); // Created at and updated at timestamps

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_sizes', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // Use UUID for the primary key
-            $table->uuid('product_id'); // Use UUID for the foreign key
+            $table->id(); // Changed to auto-incrementing ID
+            $table->foreignId('product_id'); // Changed to regular foreign ID
             $table->string('size');
             $table->bigInteger('price');
             $table->timestamps();

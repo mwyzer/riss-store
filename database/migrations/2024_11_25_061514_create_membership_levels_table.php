@@ -13,11 +13,11 @@ return new class extends Migration
     {
         if (!Schema::hasTable('membership_levels')) {
             Schema::create('membership_levels', function (Blueprint $table) {
-                $table->uuid('id')->primary(); // UUID for the primary key
-                $table->string('name'); // Name of the membership level
-                $table->text('description')->nullable(); // Optional description
-                $table->integer('min_spending'); // Minimum spending as integer
-                $table->timestamps(); // Created at and updated at timestamps
+                $table->id(); // Changed to auto-incrementing ID
+                $table->string('name');
+                $table->text('description')->nullable();
+                $table->integer('min_spending');
+                $table->timestamps();
             });
         }
     }

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_bonuses', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
+            $table->id(); // Auto-incrementing integer primary key
             
-            $table->uuid('levelId'); // UUID for the foreign key
+            $table->unsignedBigInteger('levelId'); // Foreign key as integer
             $table->foreign('levelId') // Define the foreign key
                 ->references('id')
                 ->on('membership_levels') // Reference the `membership_levels` table

@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('satellite_providers', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID as primary key
+            $table->id(); // Auto-incrementing ID as primary key
             $table->string('number')->unique(); // Unique Satellite number (e.g., SLK - SID 988277211)
             $table->string('provider'); // Provider name (e.g., OneWeb, Star-TLKM, Ubiqu)
 
-            // UUID for location_id foreign key
-            $table->uuid('location_id');
+            // Foreign key for location_id
+            $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')
                 ->references('id')
                 ->on('locations')

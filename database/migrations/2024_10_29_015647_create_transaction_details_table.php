@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // Use UUID for the primary key
-            $table->uuid('transaction_id'); // Use UUID for transaction_id foreign key
-            $table->uuid('product_id'); // Use UUID for product_id foreign key
+            $table->id(); // Changed to auto-incrementing ID
+            $table->foreignId('transaction_id'); // Changed to regular foreign ID
+            $table->foreignId('product_id'); // Changed to regular foreign ID
             $table->string('product_image');
             $table->string('color');
             $table->string('color_image');

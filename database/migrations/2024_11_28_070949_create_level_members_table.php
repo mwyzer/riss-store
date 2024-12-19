@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('level_members', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID as the primary key
+            $table->id(); // Auto-incrementing ID as the primary key
             $table->string('name'); // Level name (e.g., Silver, Gold, Platinum)
             $table->integer('point_multiplier')->default(1); // Points multiplier for each transaction
             $table->integer('bonus_points')->default(0); // Bonus points for specific actions

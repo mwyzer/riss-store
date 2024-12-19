@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
+            $table->id(); // Auto-incrementing ID for the primary key
 
-            // UUID for location_id referencing locations table
-            $table->uuid('location_id');
+            // Foreign key for location_id referencing locations table
+            $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')
                 ->references('id')
                 ->on('locations')

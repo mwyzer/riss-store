@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('complaint_histories', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // Use UUID for the primary key
-            $table->uuid('location_id'); // Use UUID for the foreign key
-            $table->uuid('user_id'); // Use UUID for the foreign key
+            $table->id(); // Changed to auto-incrementing ID
+            $table->foreignId('location_id'); // Changed to regular foreign ID
+            $table->foreignId('user_id'); // Changed to regular foreign ID
             $table->timestamps();
 
             // Define foreign key constraints

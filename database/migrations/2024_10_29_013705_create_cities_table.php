@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // Use UUID for the primary key
-            $table->uuid('province_id'); // Use UUID for the foreign key
+            $table->id(); // Changed to auto-incrementing ID
+            $table->foreignId('province_id'); // Changed to regular foreign ID
             $table->string('name');
             $table->timestamps();
 

@@ -12,16 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_images', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('product_id'); // Use UUID for the foreign key
-            $table->uuid('color_id'); // Use UUID for the foreign key
+            $table->id();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('color_id')->constrained()->cascadeOnDelete();
             $table->string('image');
             $table->timestamps();
-
-
-            // Foreign key constraints
-            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->foreign('color_id')->references('id')->on('colors')->cascadeOnDelete();
         });
     }
 

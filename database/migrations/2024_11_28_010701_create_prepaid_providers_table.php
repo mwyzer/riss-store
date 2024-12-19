@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prepaid_providers', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID as primary key
+            $table->id(); // Auto-incrementing ID as primary key
             $table->string('number')->unique(); // Phone number
             $table->string('provider_name'); // Provider name
 
-            // Foreign key for location_id (UUID)
-            $table->uuid('location_id');
+            // Foreign key for location_id (unsignedBigInteger)
+            $table->unsignedBigInteger('location_id');
             $table->foreign('location_id')
                   ->references('id')
                   ->on('locations')

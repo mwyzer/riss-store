@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
-            $table->uuid('user_id'); // UUID for user_id
-            $table->uuid('province_id'); // UUID for province_id
-            $table->uuid('city_id'); // UUID for city_id
+            $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('province_id');
+            $table->foreignId('city_id');
             $table->string('invoice');
             $table->string('courier_name');
             $table->string('courier_service');
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->enum('status', ['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED'])->default('UNPAID');
             $table->timestamps();
 
-            // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('province_id')->references('id')->on('provinces')->cascadeOnDelete();
             $table->foreign('city_id')->references('id')->on('cities')->cascadeOnDelete();

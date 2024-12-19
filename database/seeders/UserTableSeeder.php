@@ -15,28 +15,27 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if the user already exists
+        // Check if the admin user already exists
         $user = User::firstOrCreate(
-            ['email' => 'admin@gmail.com'],
+            ['email' => 'admin@gmail.com'], // Check uniqueness by email
             [
                 'name' => 'Administrator',
-                'password' => Hash::make('password'), // Use bcrypt or Hash
+                'password' => Hash::make('password'), // Hash the password
             ]
         );
 
         // Get all permissions
         $permissions = Permission::all();
 
-        // Get the admin role or create it if it doesn't exist
+        // Get or create the "Admin" role
         $role = Role::firstOrCreate(['name' => 'Admin']);
 
         // Assign all permissions to the role
-        $role->syncPermissions($permissions);
+        if ($permissions->isNotEmpty()) {
+            $role->syncPermissions($permissions);
+        }
 
-        // Assign the role to the user
+        // Assign the "Admin" role to the user
         $user->assignRole($role);
-
-        // Generate 50 random users
-        User::factory()->count(50)->create();
     }
 }

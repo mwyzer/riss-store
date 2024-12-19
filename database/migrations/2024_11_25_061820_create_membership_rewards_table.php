@@ -13,9 +13,9 @@ return new class extends Migration
     {
         if (!Schema::hasTable('membership_rewards')) {
             Schema::create('membership_rewards', function (Blueprint $table) {
-                $table->uuid('id')->primary(); // UUID for the primary key
-                $table->uuid('membershipLevelId'); // UUID for the foreign key
-                $table->uuid('rewardTypeId'); // UUID for the foreign key
+                $table->id(); // Auto-incrementing integer primary key
+                $table->unsignedBigInteger('membershipLevelId'); // Foreign key as integer
+                $table->unsignedBigInteger('rewardTypeId'); // Foreign key as integer
                 $table->unsignedInteger('bonusPoints')->nullable(); // Optional bonus points
                 $table->integer('nominalRequired')->nullable(); // Optional nominal required
                 $table->string('appliesEvery', 255)->nullable(); // Applies every interval

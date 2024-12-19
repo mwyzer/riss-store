@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('membership_requirements', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // UUID for the primary key
-            $table->uuid('membershipLevelId'); // UUID for the foreign key
+            $table->id(); // Auto-incrementing integer primary key
+            $table->unsignedBigInteger('membershipLevelId'); // Integer for the foreign key
             $table->string('requirementName', 255); // Requirement name
             $table->text('description')->nullable(); // Description of the requirement
             $table->timestamps(); // Created at and updated at timestamps
