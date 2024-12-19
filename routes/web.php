@@ -26,9 +26,7 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout')->middleware('auth');
 
-// OTP Routes
-Route::post('/otp/generate', [OtpController::class, 'generate'])->name('otp.generate');
-Route::post('/otp/verify', [OtpController::class, 'verify'])->name('otp.verify');
+
 
 // Account Routes
 Route::middleware(['auth'])->prefix('account')->group(function () {
